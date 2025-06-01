@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SocialAuthController;
 
 Route::get('/', function () {
@@ -11,11 +12,12 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::get('/register/admin', [AuthController::class, 'showRegistrationFormAdmin']);
+Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('register-admin');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/oauth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/oauth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
-
-Route::get('/dashboard', function () {
-    return view('user.dashboard');
+Route::middleware('auth')->group(function(){
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 });

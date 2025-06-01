@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,10 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    public function showRegistrationFormAdmin(){
+        return view('auth.register-admin');
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -24,7 +29,6 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/dashboard');
         }
-
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
@@ -57,6 +61,49 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/dashboard');
+        return redirect('/dashboarduser');
     }
+
+    public function registerAdmin(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'phone' => 'required|string|max:20',
+        'position' => 'required|string|max:100',
+        'institution_name' => 'required|string|max:255',
+        'institution_type' => 'required|string',
+        'institution_address' => 'required|string',
+        'institution_website' => 'nullable|url',
+        'institution_document' => 'required|file|mimes:pdf,jpg,png|max:2048',
+        'password' => 'required|string|min:8|confirmed',
+        'terms' => 'required|accepted',
+    ]);
+
+    $documentPath = $request->file('institution_document')->store('institution-documents');
+
+    $user = User::create([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'password' => Hash::make($validated['password']),
+        'phone' => $validated['phone'],
+        'role' => 'admin',
+    ]);
+
+    $institution = Institution::create([
+        'name' => $validated['institution_name'],
+        'type' => $validated['institution_type'],
+        'address' => $validated['institution_address'],
+        'website' => $validated['institution_website'],
+        'document_path' => $documentPath,
+    ]);
+
+    $user->institution()->associate($institution);
+    $user->save();
+
+    Auth::login($user);
+
+    return redirect()->route('admin.dashboard')->with('success', 'Registrasi admin berhasil!');
+}
+
 }

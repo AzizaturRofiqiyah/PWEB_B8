@@ -7,6 +7,7 @@ use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -80,7 +81,13 @@ class AuthController extends Controller
         'terms' => 'required|accepted',
     ]);
 
-    $documentPath = $request->file('institution_document')->store('institution-documents');
+    $institution_document = $validated['institution_document'];
+
+    $documentPath = Storage::disk('s3')->put('institution_document',$institution_document);
+
+    $documentPath = supabase_public_url($documentPath);
+
+    // dd($documentPath);
 
     $user = User::create([
         'name' => $validated['name'],
@@ -103,7 +110,7 @@ class AuthController extends Controller
 
     Auth::login($user);
 
-    return redirect()->route('admin.dashboard')->with('success', 'Registrasi admin berhasil!');
+    return redirect('/dashboard')->with('success', 'Registrasi admin berhasil!');
 }
 
 }

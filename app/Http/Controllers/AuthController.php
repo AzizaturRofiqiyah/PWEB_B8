@@ -66,51 +66,48 @@ class AuthController extends Controller
     }
 
     public function registerAdmin(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'phone' => 'required|string|max:20',
-        'position' => 'required|string|max:100',
-        'institution_name' => 'required|string|max:255',
-        'institution_type' => 'required|string',
-        'institution_address' => 'required|string',
-        'institution_website' => 'nullable|url',
-        'institution_document' => 'required|file|mimes:pdf,jpg,png|max:2048',
-        'password' => 'required|string|min:8|confirmed',
-        'terms' => 'required|accepted',
-    ]);
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:20',
+            'position' => 'required|string|max:100',
+            'institution_name' => 'required|string|max:255',
+            'institution_type' => 'required|string',
+            'institution_address' => 'required|string',
+            'institution_website' => 'nullable|url',
+            'institution_document' => 'required|file|mimes:pdf,jpg,png|max:2048',
+            'password' => 'required|string|min:8|confirmed',
+            'terms' => 'required|accepted',
+        ]);
 
-    $institution_document = $validated['institution_document'];
+        $institution_document = $validated['institution_document'];
 
-    $documentPath = Storage::disk('s3')->put('institution_document',$institution_document);
+        $documentPath = Storage::disk('s3')->put('institution_document',$institution_document);
 
-    $documentPath = supabase_public_url($documentPath);
+        $documentPath = supabase_public_url($documentPath);
 
-    // dd($documentPath);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'phone' => $validated['phone'],
+            'role' => 'admin',
+        ]);
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => Hash::make($validated['password']),
-        'phone' => $validated['phone'],
-        'role' => 'admin',
-    ]);
+        $institution = Institution::create([
+            'name' => $validated['institution_name'],
+            'type' => $validated['institution_type'],
+            'address' => $validated['institution_address'],
+            'website' => $validated['institution_website'],
+            'document_path' => $documentPath,
+        ]);
 
-    $institution = Institution::create([
-        'name' => $validated['institution_name'],
-        'type' => $validated['institution_type'],
-        'address' => $validated['institution_address'],
-        'website' => $validated['institution_website'],
-        'document_path' => $documentPath,
-    ]);
+        $user->institution()->associate($institution);
+        $user->save();
 
-    $user->institution()->associate($institution);
-    $user->save();
+        Auth::login($user);
 
-    Auth::login($user);
-
-    return redirect('/dashboard')->with('success', 'Registrasi admin berhasil!');
-}
-
+        return redirect('/dashboard')->with('success', 'Registrasi admin berhasil!');
+    }
 }

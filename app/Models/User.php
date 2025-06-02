@@ -46,9 +46,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     public function institution()
     {
         return $this->belongsTo(Institution::class);
+    }
+
+    public function konten()
+    {
+        return $this->hasMany(Konten::class);
+    }
+
+    public function notifikasi()
+    {
+        return $this->hasMany(Notifikasi::class);
     }
 }

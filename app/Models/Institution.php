@@ -17,4 +17,9 @@ class Institution extends Model
         'website',
         'document_path',
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
 }

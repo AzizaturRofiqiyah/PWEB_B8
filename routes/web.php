@@ -17,6 +17,9 @@ Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/oauth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/oauth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+Route::get('/school', function(){
+    return view('user.schoolarship.show');
+});
 
 Route::middleware('auth')->group(function(){
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');

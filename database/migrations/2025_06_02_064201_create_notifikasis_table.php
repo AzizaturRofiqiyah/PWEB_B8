@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->string('isi');
+            $table->boolean('isreaded');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

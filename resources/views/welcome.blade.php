@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<!-- Hero Section -->
+
 <section class="bg-gradient-to-b from-amber-500 to-amber-600 text-white py-20">
     <div class="container mx-auto px-6 lg:px-8">
         <div class="flex flex-col md:flex-row items-center">
@@ -318,74 +318,6 @@
                 class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
                 Lihat Semua Beasiswa
             </a>
-        </div>
-    </div>
-</section>
-
-<!-- Testimonials Section -->
-<section class="py-16 bg-white">
-    <div class="container mx-auto px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Kisah Sukses</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Apa kata mereka tentang ScholarMate</p>
-            <div class="w-24 h-1 bg-amber-500 mx-auto mt-4"></div>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-amber-50 p-8 rounded-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-amber-500 mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-bold">Rina Wijaya</h4>
-                        <p class="text-sm text-gray-600">Penerima Beasiswa LPDP 2022</p>
-                    </div>
-                </div>
-                <p class="text-gray-700">"ScholarMate sangat membantu saya menemukan beasiswa yang sesuai.
-                    Panduan langkah demi langkahnya membuat proses pendaftaran menjadi lebih mudah!"</p>
-            </div>
-
-            <div class="bg-amber-50 p-8 rounded-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-amber-500 mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-bold">Andi Pratama</h4>
-                        <p class="text-sm text-gray-600">Penerima Beasiswa Erasmus+ 2021</p>
-                    </div>
-                </div>
-                <p class="text-gray-700">"Saya tidak akan pernah tahu tentang beasiswa ini tanpa ScholarMate.
-                    Fitur pencariannya sangat membantu memfilter beasiswa yang sesuai dengan latar belakang
-                    saya."</p>
-            </div>
-
-            <div class="bg-amber-50 p-8 rounded-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-amber-500 mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-bold">Siti Aisyah</h4>
-                        <p class="text-sm text-gray-600">Penerima Beasiswa Kemenag 2023</p>
-                    </div>
-                </div>
-                <p class="text-gray-700">"Pengingat deadline dari ScholarMate sangat membantu saya tidak
-                    melewatkan tanggal penting. Sekarang saya bisa fokus pada persiapan dokumen."</p>
-            </div>
         </div>
     </div>
 </section>

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Konten;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use App\Models\InformasiBeasiswa;
+use App\Http\Controllers\Controller;
+use App\Http\Middleware\superadmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,13 +20,30 @@ class DashboardController extends Controller
         switch ($user->role)
         {
             case 'admin':
-                return view('admin.dashboard');
+                return $this->admin();
             case 'super admin':
-                return view('super-admin.dashboard');
+                return $this->superadmin();
             case 'user':
-                return view('user.dashboard');
+                return $this->user();
             default:
                 return abort(403, 'Unauthorized');
         }
+    }
+
+    public function admin()
+    {
+
+        return view('admin.dashboard');
+    }
+
+    public function superadmin()
+    {
+        return view('super-admin.dashboard');
+    }
+
+    public function user()
+    {
+        $notif = Auth::user()->notifunread();
+        return view('user.dashboard',compact('notif'));
     }
 }

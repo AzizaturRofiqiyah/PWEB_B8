@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,8 @@ class NotifikasiFactory extends Factory
         return [
             'isi' => $this->faker->text(200),
             'judul' => $this->faker->sentence,
-            'user_id' => \App\Models\User::factory()->create()->id,
+            'user_id' => User::factory()->create()->id,
+            'isreaded' => false,
             'created_at' => now(),
             'updated_at' => now(),
         ];

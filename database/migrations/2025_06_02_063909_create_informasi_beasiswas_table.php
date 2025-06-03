@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('judul');
+            $table->string('deskripsi_singkat');
             $table->string('deskripsi');
             $table->date('deadline');
-            $table->string('foto');
-            $table->string('link pendaftaran');
+            $table->string('foto')->nullable();
+            $table->enum('jenis',['Penuh','Parsial'])->default('Penuh');
+            $table->enum('wilayah',['Dalam Negeri','Luar Negri','Dalam/Luar Negeri'])->default('Dalam Negeri');
+            $table->string('link_pendaftaran');
             $table->timestamps();
         });
     }

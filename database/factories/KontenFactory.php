@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +20,8 @@ class KontenFactory extends Factory
         return [
             'judul' => $this->faker->sentence,
             'deskripsi' => $this->faker->paragraph,
-            'konten' => $this->faker->text(500),
-            'foto' => $this->faker->imageUrl(640, 480, 'nature', true),
-            'user_id' => \App\Models\User::factory()->create()->id,
+            'foto' => "https://source.unsplash.com/640x480/?nature",
+            'user_id' => User::factory()->create()->id,
             'created_at' => now(),
             'updated_at' => now(),
         ];

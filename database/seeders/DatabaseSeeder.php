@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\InformasiBeasiswa;
+use App\Models\Konten;
 use App\Models\Notifikasi;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -27,11 +28,18 @@ class DatabaseSeeder extends Seeder
             'password' => '12345678',
             'role' => 'admin'
         ]);
+        User::factory()->create([
+            'name' => 'User Tester',
+            'email' => 'user@example.com',
+            'password' => '12345678',
+            'role' => 'user'
+        ]);
         InformasiBeasiswa::factory(10)->create([
-            'user_id' => 1
+            'user_id' => 2
         ]);
         Notifikasi::factory(5)->create([
             'user_id' => 1
         ]);
+        Konten::factory(10)->create();
     }
 }

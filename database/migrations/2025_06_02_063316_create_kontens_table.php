@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul');
             $table->string('deskripsi');
             $table->string('foto');
-            $table->date('tanggal Upload');
+            $table->date('tanggal_upload')->default(now());
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

@@ -3,11 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KontenController;
 use App\Http\Controllers\SocialAuthController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/konten',[KontenController::class,'index'])->name('konten.index');
+Route::get('/konten/{konten}',[KontenController::class,'show'])->name('konten.show');
+Route::get('/konten/create', [KontenController::class, 'create'])->name('konten.create');
+Route::post('/konten', [KontenController::class, 'store'])->name('konten.store');
+Route::get('/konten/{id}/edit', [KontenController::class, 'edit'])->name('konten.edit');
+Route::put('/konten/{id}', [KontenController::class, 'update'])->name('konten.update');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

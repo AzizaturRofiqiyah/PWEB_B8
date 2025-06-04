@@ -19,9 +19,9 @@ class KomentarFactory extends Factory
     public function definition(): array
     {
         return [
-            'isi' => $this->faker->text(200),
+            'komentar' => $this->faker->text(200),
             'user_id' => User::factory(),
-            'informasi_beasiswa_id' => InformasiBeasiswa::factory(),
+            'informasi_beasiswa_id' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ];

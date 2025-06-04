@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('jenis',['Penuh','Parsial'])->default('Penuh');
             $table->enum('wilayah',['Dalam Negeri','Luar Negri','Dalam/Luar Negeri'])->default('Dalam Negeri');
             $table->string('link_pendaftaran');
+            $table->enum('status',['menunggu persetujuan','sudah disetujui'])->default('menunggu persetujuan');
             $table->timestamps();
         });
     }

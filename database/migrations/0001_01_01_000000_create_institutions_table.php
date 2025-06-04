@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('website')->nullable();
             $table->string('document_path');
+            $table->enum('status',['menunggu persetujuan','sudah disetujui'])->default('menunggu persetujuan');
             $table->timestamps();
         });
     }

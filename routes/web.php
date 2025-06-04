@@ -2,24 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KontenController;
+use App\Http\Controllers\KomentarController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\InformasiBeasiswaController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', fn() => view('welcome'));
+
+Route::prefix('notifikasi')->group(function () {
+    Route::get('/', [NotifikasiController::class, 'index'])->name('notifications.index');
+    Route::post('/{notifikasi}/dibaca', [NotifikasiController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/tandai-dibaca-semua', [NotifikasiController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 });
 
-
-Route::get('/konten',[KontenController::class,'index'])->name('konten.index');
-Route::get('/konten/{konten}',[KontenController::class,'show'])->name('konten.show');
-Route::get('/konten/create', [KontenController::class, 'create'])->name('konten.create');
-Route::post('/konten', [KontenController::class, 'store'])->name('konten.store');
-Route::get('/konten/{id}/edit', [KontenController::class, 'edit'])->name('konten.edit');
-Route::put('/konten/{id}', [KontenController::class, 'update'])->name('konten.update');
+Route::get('/beasiswa', [InformasiBeasiswaController::class, 'index'])->name('beasiswa.index');
+Route::get('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'show'])->name('beasiswa.show');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::get('/register/admin', [AuthController::class, 'showRegistrationFormAdmin']);
@@ -27,10 +29,31 @@ Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/oauth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/oauth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
-Route::get('/school', function(){
-    return view('user.schoolarship.show');
-});
 
 Route::middleware('auth')->group(function(){
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    Route::post('/komentar', [KomentarController::class, 'store'])->name('comment.store');
+    Route::delete('/komentar/{komentar}', [KomentarController::class, 'destroy'])->name('comment.destroy');
+
+    Route::middleware('admin')->group(function(){
+
+    Route::get('/beasiswa/{beasiswa}/edit', [InformasiBeasiswaController::class, 'edit'])->name('beasiswa.edit');
+    Route::put('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'update'])->name('beasiswa.update');
+    Route::delete('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'destroy'])->name('beasiswa.destroy');
+    Route::post('/beasiswa/{beasiswa}/approve', [InformasiBeasiswaController::class, 'approve'])->name('beasiswa.approve');
+        Route::get('/beasiswa/create', [InformasiBeasiswaController::class, 'create'])->name('beasiswa.create');
+        Route::post('/beasiswa', [InformasiBeasiswaController::class, 'store'])->name('beasiswa.store');
+    });
+
+    Route::middleware('superadmin')->group(function(){
+        Route::prefix('konten')->group(function(){
+            Route::get('/',[KontenController::class,'index'])->name('konten.index');
+            Route::get('/{konten}',[KontenController::class,'show'])->name('konten.show');
+            Route::get('/create', [KontenController::class, 'create'])->name('konten.create');
+            Route::post('/', [KontenController::class, 'store'])->name('konten.store');
+            Route::get('/{id}/edit', [KontenController::class, 'edit'])->name('konten.edit');
+            Route::put('/{id}', [KontenController::class, 'update'])->name('konten.update');
+        });
+
+    });
 });

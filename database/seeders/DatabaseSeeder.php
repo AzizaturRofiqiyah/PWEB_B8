@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\InformasiBeasiswa;
+use App\Models\Komentar;
 use App\Models\Konten;
 use App\Models\Notifikasi;
 use App\Models\User;
@@ -41,5 +42,6 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1
         ]);
         Konten::factory(10)->create();
+        Komentar::factory(10)->create();
     }
 }

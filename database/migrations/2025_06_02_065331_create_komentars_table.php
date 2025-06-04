@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('komentars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('komentar_id')->nullable()->constrained();
+            $table->foreignId('informasi_beasiswa_id')->nullable()->constrained();
             $table->string('komentar');
             $table->timestamps();
         });

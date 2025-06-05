@@ -7,10 +7,13 @@
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Daftar Beasiswa</h1>
         @auth
-        <a href="{{ route('beasiswa.create') }}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-            + Tambah Beasiswa
-        </a>
-        @endauth
+        @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super admin')
+            <a href="{{ route('beasiswa.create') }}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                + Tambah Beasiswa
+            </a>
+        @endif
+    @endauth
+
     </div>
 
     @if(session('success'))

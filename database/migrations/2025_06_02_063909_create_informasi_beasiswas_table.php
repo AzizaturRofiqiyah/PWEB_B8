@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('deadline');
             $table->string('foto')->nullable();
             $table->enum('jenis',['Penuh','Parsial'])->default('Penuh');
-            $table->enum('wilayah',['Dalam Negeri','Luar Negri','Dalam/Luar Negeri'])->default('Dalam Negeri');
+            $table->enum('wilayah',['Dalam Negeri','Luar Negeri','Dalam/Luar Negeri'])->default('Dalam Negeri');
             $table->string('link_pendaftaran');
             $table->enum('status',['menunggu persetujuan','sudah disetujui'])->default('menunggu persetujuan');
             $table->timestamps();

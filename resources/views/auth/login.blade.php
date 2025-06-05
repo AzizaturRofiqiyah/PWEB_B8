@@ -62,9 +62,12 @@
                             <i class="far fa-eye" id="togglePasswordIcon"></i>
                         </div>
                     </div>
-                    @error('password')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    @if(session('error'))
+                        <div class="mt-2 text-sm text-red-600">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                 </div>
 
                 <div class="flex items-center justify-between">

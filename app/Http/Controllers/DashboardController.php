@@ -37,15 +37,13 @@ class DashboardController extends Controller
 
     public function superadmin()
     {
-        $notif = Auth::user()->notifunread();
-        return view('super-admin.dashboard',compact('notif'));
+        return view('super-admin.dashboard');
     }
 
     public function user()
     {
-        $notif = Auth::user()->notifunread();
         $rekomendasibeasiswa = InformasiBeasiswa::orderby('deadline')->take(3)->get();
         $rekomendasikonten = Konten::orderby('tanggal_upload')->take(3)->get();
-        return view('user.dashboard',compact('notif','rekomendasibeasiswa','rekomendasikonten'));
+        return view('user.dashboard',compact('rekomendasibeasiswa','rekomendasikonten'));
     }
 }

@@ -8,7 +8,7 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Notifikasi</h1>
             @if($notifications->count() > 0)
-            <form action="{{--  --}}" method="POST">
+            <form action="{{ route('notifications.markAllAsRead') }}" method="POST">
                 @csrf
                 <button type="submit" class="text-amber-600 hover:text-amber-700 text-sm font-medium">
                     Tandai Semua Sudah Dibaca
@@ -20,7 +20,7 @@
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             @forelse ($notifications as $notification)
             <div class="border-b border-gray-200 last:border-0">
-                <a href="#" class="block hover:bg-gray-50 transition duration-150 ease-in-out">
+                <a href="{{ route("notifications.show",$notification)}}" class="block hover:bg-gray-50 transition duration-150 ease-in-out">
                     <div class="p-4 flex items-start space-x-3 @if(!$notification->isreaded) bg-amber-50 @endif">
                         <div class="flex-shrink-0">
                             <div class="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">

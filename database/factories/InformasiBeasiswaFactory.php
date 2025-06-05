@@ -27,7 +27,7 @@ class InformasiBeasiswaFactory extends Factory
             'link_pendaftaran' => $this->faker->url,
             'user_id' => User::factory()->create()->id,
             'jenis' => collect(['Penuh','Parsial'])->random(),
-            'wilayah' => collect(['Dalam Negeri','Luar Negri','Dalam/Luar Negeri'])->random(),
+            'wilayah' => collect(['Dalam Negeri','Luar Negeri','Dalam/Luar Negeri'])->random(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

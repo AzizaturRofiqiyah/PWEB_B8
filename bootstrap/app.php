@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\admin;
+use App\Http\Middleware\ShareDataMiddleware;
 use App\Http\Middleware\superadmin;
 use App\Http\Middleware\user;
 use Illuminate\Foundation\Application;

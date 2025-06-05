@@ -2,10 +2,6 @@
 
 @section('title', 'ScholarMate - Teman Perjalanan Menuju Beasiswa Impian')
 
-@section('navbar')
-@extends('layouts.navbar')
-@endsection
-
 @section('content')
 
 <section class="bg-gradient-to-b from-amber-500 to-amber-600 text-white py-20">

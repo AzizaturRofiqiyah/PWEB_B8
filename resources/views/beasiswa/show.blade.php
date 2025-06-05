@@ -2,10 +2,6 @@
 
 @section('title', $beasiswa->judul)
 
-@section('navbar')
-@extends('layouts.navbar')
-@endsection
-
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
@@ -75,13 +71,16 @@
         </div>
 
         <!-- Admin Actions -->
-        @if(auth()->user() && auth()->user()->role === 'super admin')
+        @if(auth()->user() && (auth()->user()->role === 'admin' || auth()->user()->role === 'admin'))
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Admin Actions</h3>
             <div class="flex space-x-4">
+                @if(auth()->user() && auth()->user()->role === 'admin')
                 <a href="{{ route('beasiswa.edit', $beasiswa->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                     Edit Beasiswa
                 </a>
+                @endif
+                @if(auth()->user() && auth()->user()->role === 'super admin')
                 @if($beasiswa->status == 'menunggu persetujuan')
                 <form action="{{ route('beasiswa.approve', $beasiswa->id) }}" method="POST">
                     @csrf
@@ -97,33 +96,31 @@
                         Hapus Beasiswa
                     </button>
                 </form>
+                @endif
             </div>
         </div>
         @endif
-    </div>
-</div>
-<!-- Comment Section -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Komentar ({{ $beasiswa->komentar->count() }})</h3>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 max-w-4xl">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Komentar ({{ $beasiswa->komentar->count() }})</h3>
 
-            @auth
-            <!-- Comment Form -->
-            <form action="{{ route('comment.store') }}" method="POST" class="mb-6">
-                @csrf
-                <input type="hidden" name="beasiswa_id" value="{{ $beasiswa->id }}">
-                <div class="mb-4">
-                    <label for="content" class="sr-only">Komentar</label>
-                    <textarea name="content" id="content" rows="3"
-                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('content') border-red-500 @enderror"
-                              placeholder="Tulis komentar Anda..." required></textarea>
-                    @error('content')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-                    Kirim Komentar
-                </button>
-            </form>
+        @auth
+        <!-- Comment Form -->
+        <form action="{{ route('comment.store') }}" method="POST" class="mb-6">
+            @csrf
+            <input type="hidden" name="beasiswa_id" value="{{ $beasiswa->id }}">
+            <div class="mb-4">
+                <label for="content" class="sr-only">Komentar</label>
+                <textarea name="content" id="content" rows="3"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('content') border-red-500 @enderror"
+                placeholder="Tulis komentar Anda..." required></textarea>
+                @error('content')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                Kirim Komentar
+            </button>
+        </form>
             @else
             <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
                 <p class="text-amber-700">Silakan <a href="{{ route('login') }}" class="text-amber-600 hover:text-amber-800 font-medium">login</a> untuk meninggalkan komentar.</p>
@@ -163,4 +160,8 @@
                 <p class="text-gray-500 text-center py-4">Belum ada komentar. Jadilah yang pertama berkomentar!</p>
                 @endforelse
             </div>
+        </div>
+    </div>
+
+    </div>
 @endsection

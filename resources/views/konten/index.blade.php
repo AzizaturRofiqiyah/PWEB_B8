@@ -2,19 +2,15 @@
 
 @section('title', 'Daftar Artikel')
 
-@section('navbar')
-@extends('layouts.navbar')
-@endsection
-
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Daftar Artikel</h1>
-        @auth
-        <a href="{{--  --}}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-            + Buat Artikel Baru
-        </a>
-        @endauth
+        @if (Auth::user()?->role === 'admin' || Auth::user()?->role === 'super admin')
+            <a href="{{--  --}}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                + Buat Artikel Baru
+            </a>
+        @endif
     </div>
 
     @if(session('success'))

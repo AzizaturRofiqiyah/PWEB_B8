@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -17,8 +18,14 @@ class SocialAuthController extends Controller
 
     public function handleGoogleCallback()
     {
-        $googleUser = Socialite::driver('google')->user();
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
 
+            Log::error('Socialite Google Error: '.$e->getMessage());
+
+            return redirect('/login')->with('error', 'Gagal masuk dengan Google. Pastikan koneksi internet stabil atau coba beberapa saat lagi.');
+        }
         $user = User::where('email', $googleUser->getEmail())->first();
 
         if (!$user) {

@@ -13,7 +13,9 @@ class Notifikasi extends Model
     protected $fillable =[
         'judul',
         'isi',
-        'isreaded'
+        'isreaded',
+        'link',
+        'tipe'
     ];
 
     public function User()

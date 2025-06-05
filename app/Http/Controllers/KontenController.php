@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konten;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,7 @@ class KontenController extends Controller
     public function index()
     {
         $konten = Konten::paginate(10);
-        return view('konten.konten',compact('konten'));
+        return view('konten.index',compact('konten'));
     }
 
     public function show(Konten $konten)

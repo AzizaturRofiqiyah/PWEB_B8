@@ -4,17 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\InformasiBeasiswa;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class InformasiBeasiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $beasiswas = InformasiBeasiswa::paginate(10);
-        return view('beasiswa.index',compact('beasiswas'));
+        $query = InformasiBeasiswa::query();
+
+        if ($request->filled('jenis')) {
+            $query->where('jenis', $request->jenis);
+        }
+
+        if ($request->filled('wilayah')) {
+            $query->where('wilayah', $request->wilayah);
+        }
+
+        $beasiswas = $query->orderBy('created_at', 'desc')->paginate(9);
+
+        return view('beasiswa.index', compact('beasiswas'));
     }
 
-     public function show(InformasiBeasiswa $beasiswa)
+
+    public function show(InformasiBeasiswa $beasiswa)
     {
         return view('beasiswa.show',compact('beasiswa'));
     }
@@ -46,7 +59,7 @@ class InformasiBeasiswaController extends Controller
         ]);
 
         $data = $validated;
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = Auth::user()->id;
 
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('beasiswa', 'public');

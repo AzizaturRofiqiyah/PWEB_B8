@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('isi');
             $table->boolean('isreaded');
             $table->foreignId('user_id')->constrained();
+            $table->string('link')->nullable();
+            $table->string('tipe')->default('info');
             $table->timestamps();
         });
     }

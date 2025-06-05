@@ -21,7 +21,13 @@ class InformasiBeasiswaController extends Controller
             $query->where('wilayah', $request->wilayah);
         }
 
-        $beasiswas = $query->orderBy('created_at', 'desc')->paginate(9);
+        if (auth()->user()->role === 'user')
+        {
+            $beasiswas = $query->where('status','sudah disetujui')->orderBy('created_at', 'desc')->paginate(9);
+        }
+        else {
+            $beasiswas = $query->orderBy('created_at', 'desc')->paginate(9);
+        }
 
         return view('beasiswa.index', compact('beasiswas'));
     }
@@ -32,11 +38,9 @@ class InformasiBeasiswaController extends Controller
         return view('beasiswa.show',compact('beasiswa'));
     }
 
-    public function approve($id)
+    public function approve(InformasiBeasiswa $beasiswa)
     {
-        $beasiswa = InformasiBeasiswa::findOrFail($id);
         $beasiswa->update(['status' => 'sudah disetujui']);
-
         return back()->with('success', 'Beasiswa telah disetujui');
     }
 

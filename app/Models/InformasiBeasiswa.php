@@ -13,9 +13,13 @@ class InformasiBeasiswa extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
+        'deskripsi_singkat',
         'deadline',
         'foto',
-        'link pendaftaran'
+        'status',
+        'link_pendaftaran',
+        'jenis',
+        'wilayah',
     ];
 
     public function user()

@@ -12,6 +12,8 @@ class Komentar extends Model
 
     protected $fillable = [
         'komentar',
+        'user_id',
+        'informasi_beasiswa_id'
     ];
 
     public function beasiswa()

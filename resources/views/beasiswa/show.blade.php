@@ -70,21 +70,20 @@
             </div>
         </div>
 
-        <!-- Admin Actions -->
-        @if(auth()->user() && (auth()->user()->role === 'admin' || auth()->user()->role === 'admin'))
+        @if(auth()->user() && (auth()->user()->role === 'admin' || auth()->user()->role === 'super admin'))
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Admin Actions</h3>
             <div class="flex space-x-4">
                 @if(auth()->user() && auth()->user()->role === 'admin')
-                <a href="{{ route('beasiswa.edit', $beasiswa->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                <a href="{{ route('beasiswa.edit', $beasiswa->id) }}"  class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                     Edit Beasiswa
                 </a>
                 @endif
                 @if(auth()->user() && auth()->user()->role === 'super admin')
                 @if($beasiswa->status == 'menunggu persetujuan')
-                <form action="{{ route('beasiswa.approve', $beasiswa->id) }}" method="POST">
+                <form action="{{ route('beasiswa.approve', $beasiswa) }}" method="POST">
                     @csrf
-                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                    <button type="submit"  class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 cursor-pointer">
                         Setujui Beasiswa
                     </button>
                 </form>
@@ -92,7 +91,7 @@
                 <form action="{{ route('beasiswa.destroy', $beasiswa->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus beasiswa ini?')">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 cursor-pointer">
                         Hapus Beasiswa
                     </button>
                 </form>
@@ -107,17 +106,17 @@
         <!-- Comment Form -->
         <form action="{{ route('comment.store') }}" method="POST" class="mb-6">
             @csrf
-            <input type="hidden" name="beasiswa_id" value="{{ $beasiswa->id }}">
+            <input type="hidden" name="informasi_beasiswa_id" value="{{ $beasiswa->id }}">
             <div class="mb-4">
                 <label for="content" class="sr-only">Komentar</label>
-                <textarea name="content" id="content" rows="3"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('content') border-red-500 @enderror"
+                <textarea id="komentar" name='komentar' rows="3"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('komentar') border-red-500 @enderror"
                 placeholder="Tulis komentar Anda..." required></textarea>
-                @error('content')
+                @error('informasi_beasiswa_id')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
-            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 cursor-pointer">
                 Kirim Komentar
             </button>
         </form>
@@ -144,7 +143,7 @@
                             </div>
                             <p class="text-gray-700 mt-1">{{ $comment->komentar }}</p>
 
-                            @if(auth()->id() === $comment->user_id || auth()->user()?->is_admin)
+                            @if(auth()->id() === $comment->user_id || auth()->user()?->role === "super admin")
                             <form action="{{ route('comment.destroy', $comment->id) }}" method="POST" class="mt-2">
                                 @csrf
                                 @method('DELETE')

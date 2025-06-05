@@ -37,13 +37,6 @@ Route::middleware('auth')->group(function(){
     Route::post('/komentar', [KomentarController::class, 'store'])->name('comment.store');
     Route::delete('/komentar/{komentar}', [KomentarController::class, 'destroy'])->name('comment.destroy');
 
-    Route::middleware('admin')->group(function(){
-        Route::get('/beasiswa/create', [InformasiBeasiswaController::class, 'create'])->name('beasiswa.create');
-        Route::post('/beasiswa', [InformasiBeasiswaController::class, 'store'])->name('beasiswa.store');
-        Route::get('/beasiswa/{beasiswa}/edit', [InformasiBeasiswaController::class, 'edit'])->name('beasiswa.edit');
-        Route::put('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'update'])->name('beasiswa.update');
-    });
-
     Route::middleware('superadmin')->group(function(){
 
         Route::delete('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'destroy'])->name('beasiswa.destroy');
@@ -54,7 +47,13 @@ Route::middleware('auth')->group(function(){
             Route::get('/{id}/edit', [KontenController::class, 'edit'])->name('konten.edit');
             Route::put('/{id}', [KontenController::class, 'update'])->name('konten.update');
         });
-
+    });
+    
+    Route::middleware('admin')->group(function(){
+        Route::get('/beasiswa/create', [InformasiBeasiswaController::class, 'create'])->name('beasiswa.create');
+        Route::post('/beasiswa', [InformasiBeasiswaController::class, 'store'])->name('beasiswa.store');
+        Route::get('/beasiswa/{beasiswa}/edit', [InformasiBeasiswaController::class, 'edit'])->name('beasiswa.edit');
+        Route::put('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'update'])->name('beasiswa.update');
     });
 });
 

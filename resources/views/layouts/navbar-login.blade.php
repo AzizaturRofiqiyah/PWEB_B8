@@ -38,17 +38,17 @@
                     </a>
                 </div>
                 <div class="relative">
-                    <button id="dropdownToggle" class="flex items-center space-x-2 focus:outline-none">
+                    <button id="dropdownToggle" class="flex items-center space-x-2 focus:outline-none cursor-pointer">
                         <div class="h-8 w-8 rounded-full bg-amber-200 flex items-center justify-center text-amber-800 font-semibold">
                             {{ substr(Auth::user()->name, 0, 1) }}
                         </div>
                         <span class="text-amber-200 hover:text-white">{{ Auth::user()->name }}</span>
                     </button>
                     <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50">Profil Saya</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 cursor-pointer">Profil Saya</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-amber-50">Keluar</button>
+                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 cursor-pointer">Keluar</button>
                         </form>
                     </div>
                 </div>

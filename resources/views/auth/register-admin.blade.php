@@ -2,26 +2,24 @@
 
 @section('title', 'Registrasi Admin - ScholarMate')
 
-@section('navbar')
+@section('content')
 <nav class="sticky top-0 bg-amber-600 text-white shadow-lg z-50">
     <div class="container mx-auto sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center">
-                <div class="flex items-center space-x-2">
-                    <img src="{{ asset('images/logo.png') }}" class="h-8 w-8" alt="ScholarMate Icon">
+                <a href="/" class="flex items-center space-x-2">
+                    <img src="{{ asset('graduation-cap-solid.svg') }}" class="h-8 w-8" alt="ScholarMate Icon">
                     <span class="text-xl font-bold">ScholarMate</span>
-                </div>
+                </a>
             </div>
             <div class="flex items-center">
-                <a href="/login" class="text-amber-200 hover:text-white font-medium">Sudah punya akun? Masuk</a>
+                <a href="{{ route('login') }}" class="text-amber-200 hover:text-white font-medium">Sudah punya akun? Masuk</a>
             </div>
         </div>
     </div>
 </nav>
-@endsection
 
-@section('content')
-<div class="min-h-screen bg-amber-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-amber-50 flex flex-col justify-center py-5 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Registrasi Admin Lembaga
@@ -33,7 +31,7 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-3xl">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form class="space-y-6" action="{{ route('register-admin') }}" method="POST" enctype="multipart/form-data">
+            <form class="space-y-6" action="{{ route('register-admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Informasi Pribadi -->

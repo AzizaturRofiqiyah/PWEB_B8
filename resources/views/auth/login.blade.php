@@ -2,33 +2,33 @@
 
 @section('title', 'Login - ScholarMate')
 
-@section('navbar')
+@section('content')
+
 <nav class="sticky top-0 bg-amber-600 text-white shadow-lg z-50">
     <div class="container mx-auto sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center">
-                <div class="flex items-center space-x-2">
-                    <img src="{{ asset('images/logo.png') }}" class="h-8 w-8" alt="ScholarMate Icon">
+                <a href="/" class="flex items-center space-x-2">
+                    <img src="{{ asset('graduation-cap-solid.svg') }}" class="h-8 w-8" alt="ScholarMate Icon">
                     <span class="text-xl font-bold">ScholarMate</span>
-                </div>
+                </a>
             </div>
-            <div class="flex items-center">
-                <a href="/register" class="text-amber-200 hover:text-white font-medium">Belum punya akun? Daftar</a>
+            <div class="flex items-center space-x-5">
+                <a href="{{ route('register-admin') }}" class="text-amber-200 hover:text-white font-medium">Akun instansi?<br>Daftar disini</a>
+                <a href="{{ route('register') }}" class="text-amber-200 hover:text-white font-medium">Belum punya akun?<br>Daftar</a>
             </div>
         </div>
     </div>
 </nav>
-@endsection
 
-@section('content')
-<div class="min-h-screen bg-amber-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-amber-50 flex flex-col justify-center sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 class="text-center text-3xl font-extrabold text-gray-900">
             Masuk ke akun Anda
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
             Atau
-            <a href="/register" class="font-medium text-amber-600 hover:text-amber-500">
+            <a href="{{ route('register') }}" class="font-medium text-amber-600 hover:text-amber-500">
                 daftar akun baru
             </a>
         </p>
@@ -106,20 +106,12 @@
                     </div>
                 </div>
 
-                <div class="mt-6 grid grid-cols-2 gap-3">
+                <div class="mt-6 grid">
                     <div>
                         <a href="{{ route('auth.google') }}"
                             class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                             <i class="fab fa-google text-amber-600"></i>
                             <span class="ml-2">Google</span>
-                        </a>
-                    </div>
-
-                    <div>
-                        <a href="#"
-                            class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                            <i class="fab fa-facebook-f text-amber-600"></i>
-                            <span class="ml-2">Facebook</span>
                         </a>
                     </div>
                 </div>

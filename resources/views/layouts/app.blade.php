@@ -19,6 +19,8 @@
 <body>
 @if (Auth::check())
     @include('layouts.navbar-login')
+@elseif (Route::currentRouteName() === 'login' || Route::currentRouteName() === 'register' || Route::currentRouteName() === 'register-admin' )
+
 @else
     @include('layouts.navbar')
 @endif

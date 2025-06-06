@@ -26,9 +26,9 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::get('/register/admin', [AuthController::class, 'showRegistrationFormAdmin']);
-Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('register-admin');
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/register/admin', [AuthController::class, 'showRegistrationFormAdmin'])->name('register-admin');
+Route::post('/register/admin', [AuthController::class, 'registerAdmin'])->name('register-admin.store');
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 Route::get('/oauth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/oauth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function(){
             Route::put('/{id}', [KontenController::class, 'update'])->name('konten.update');
         });
     });
-    
+
     Route::middleware('admin')->group(function(){
         Route::get('/beasiswa/create', [InformasiBeasiswaController::class, 'create'])->name('beasiswa.create');
         Route::post('/beasiswa', [InformasiBeasiswaController::class, 'store'])->name('beasiswa.store');

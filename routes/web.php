@@ -7,6 +7,7 @@ use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InformasiBeasiswaController;
 
 Route::get('/', fn() => view('welcome'));
@@ -47,6 +48,10 @@ Route::middleware('auth')->group(function(){
             Route::get('/{id}/edit', [KontenController::class, 'edit'])->name('konten.edit');
             Route::put('/{id}', [KontenController::class, 'update'])->name('konten.update');
         });
+        Route::prefix('institutions')->group(function () {
+            Route::get('/', [InstitutionController::class, 'index'])->name('institutions.index');
+            Route::get('/{institution}', [InstitutionController::class, 'show'])->name('institutions.show');
+            Route::post('/{institution}/approve', [InstitutionController::class, 'approve'])->name('institutions.approve');});
     });
 
     Route::middleware('admin')->group(function(){

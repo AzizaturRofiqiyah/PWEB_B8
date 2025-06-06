@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public function institution()
     {
-        return $this->belongsTo(Institution::class);
+        return $this->hasOne(Institution::class);
     }
 
     public function konten()

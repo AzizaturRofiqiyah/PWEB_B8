@@ -11,15 +11,25 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
+        if (auth::check()){
+            return redirect('/dashboard');
+        }
         return view('auth.login');
     }
 
     public function showRegistrationForm(){
+        if (auth::check()){
+            return redirect('/dashboard');
+        }
         return view('auth.register');
     }
 
     public function showRegistrationFormAdmin(){
+        if (auth::check()){
+            return redirect('/dashboard');
+        }
         return view('auth.register-admin');
     }
 
@@ -53,7 +63,6 @@ class AuthController extends Controller
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -62,7 +71,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/dashboarduser');
+        return redirect('/dashboard');
     }
 
     public function registerAdmin(Request $request)

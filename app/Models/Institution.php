@@ -13,6 +13,7 @@ class Institution extends Model
     protected $fillable = [
         'name',
         'type',
+        'status',
         'address',
         'website',
         'document_path',
@@ -20,6 +21,6 @@ class Institution extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->hasOne(User::class);
     }
 }

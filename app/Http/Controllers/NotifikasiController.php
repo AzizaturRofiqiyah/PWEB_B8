@@ -44,8 +44,7 @@ class NotifikasiController extends Controller
     {
         $notification = Notifikasi::where('user_id', auth::user()->id)
             ->findOrFail($id);
-
-        // Tandai sebagai sudah dibaca ketika dilihat
+            
         if (!$notification->isreaded) {
             $notification->update(['isreaded' => true]);
         }

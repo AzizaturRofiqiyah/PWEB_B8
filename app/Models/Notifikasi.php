@@ -15,7 +15,8 @@ class Notifikasi extends Model
         'isi',
         'isreaded',
         'link',
-        'tipe'
+        'tipe',
+        'user_id'
     ];
 
     public function User()

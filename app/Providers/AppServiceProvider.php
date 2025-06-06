@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
         if (Auth::check()) {
-            $notif = Auth::user()->notifikasi->where('isread', false)->count();
+            $notif = Auth::user()->notifikasi->where('isreaded', false)->count();
             $view->with('notif', $notif);
         }
     });

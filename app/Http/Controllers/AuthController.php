@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Notifikasi;
 use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,7 +113,15 @@ class AuthController extends Controller
             'document_path' => $documentPath,
         ]);
 
-        $user->institution()->associate($institution);
+        $notification = Notifikasi::create([
+            'judul'=> 'Pendaftaran institusi baru',
+            'isi' => 'Akun bernama ' . $user->name ." mendaftarkan institusi baru",
+            'tipe' => 'info',
+            'link' => '/institutions',
+            'user_id' => User::findorFail(1)->id
+        ]);
+
+        $user->institution()->save($institution);
         $user->save();
 
         Auth::login($user);

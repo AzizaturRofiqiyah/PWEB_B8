@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -33,7 +34,14 @@ class InstitutionController extends Controller
     public function approve(Institution $institution)
     {
         $institution->update(['status' => 'sudah disetujui']);
-
+        $user = $institution->user()->first()->id;
+        $notifikasi = Notifikasi::create([
+            'judul' => 'Institusi telah disetujui',
+            'isi' => 'Sekarang institusi anda dapat mengajukan postingan beasiswa',
+            'link' => '/beasiswa',
+            'tipe' => 'success',
+            'user_id' => $user->id
+        ]);
         return back()->with('success', 'Institusi telah disetujui');
     }
 

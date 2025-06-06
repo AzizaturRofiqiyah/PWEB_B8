@@ -21,7 +21,7 @@ class InformasiBeasiswaController extends Controller
             $query->where('wilayah', $request->wilayah);
         }
 
-        if (auth()->user()->role === 'user')
+        if (auth::user()->role === 'user')
         {
             $beasiswas = $query->where('status','sudah disetujui')->orderBy('created_at', 'desc')->paginate(9);
         }

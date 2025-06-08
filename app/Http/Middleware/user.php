@@ -17,7 +17,7 @@ class user
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->role === 'user'){
-             return $next($request);
+            return $next($request);
         }
         return abort(403, 'Unauthorized');
     }

@@ -13,11 +13,17 @@ class Konten extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
-        'foto'
+        'foto',
+        'user_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    // public function komentars()
+    // {
+    // return $this->hasMany(Komentar::class);
+    // }
 }

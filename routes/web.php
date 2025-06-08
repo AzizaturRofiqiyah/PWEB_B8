@@ -38,11 +38,12 @@ Route::middleware('auth')->group(function(){
     Route::post('/komentar', [KomentarController::class, 'store'])->name('comment.store');
     Route::delete('/komentar/{komentar}', [KomentarController::class, 'destroy'])->name('comment.destroy');
 
-    Route::middleware('superadmin')->group(function(){
+    Route::middleware('super admin')->group(function(){
 
         Route::delete('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'destroy'])->name('beasiswa.destroy');
         Route::post('/beasiswa/{beasiswa}/approve', [InformasiBeasiswaController::class, 'approve'])->name('beasiswa.approve');
         Route::prefix('konten')->group(function(){
+            Route::delete('/{id}', [KontenController::class, 'destroy'])->name('konten.destroy');
             Route::get('/create', [KontenController::class, 'create'])->name('konten.create');
             Route::post('/', [KontenController::class, 'store'])->name('konten.store');
             Route::get('/{id}/edit', [KontenController::class, 'edit'])->name('konten.edit');

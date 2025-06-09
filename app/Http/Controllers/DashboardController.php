@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Konten;
 use App\Models\Institution;
+use App\Models\User;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\InformasiBeasiswa;
 use App\Http\Controllers\Controller;
@@ -37,9 +39,23 @@ class DashboardController extends Controller
 
     public function superadmin()
     {
-        return view('super-admin.dashboard');
-    }
+        $totalBeasiswa = InformasiBeasiswa::count();
+        $totalAdmin = User::where('role', 'admin')->count();
+        $totalUser = User::where('role', 'user')->count();
 
+        $unverifiedBeasiswas = InformasiBeasiswa::where('status', 'pending')->get();
+        $kontens = Konten::all();
+        $notifikasis = Notifikasi::latest()->take(5)->get();
+
+        return view('super-admin.dashboard', compact(
+            'totalBeasiswa',
+            'totalAdmin',
+            'totalUser',
+            'unverifiedBeasiswas',
+            'kontens',
+            'notifikasis'
+        ));
+    }
     public function user()
     {
         $rekomendasibeasiswa = InformasiBeasiswa::where('status','sudah disetujui')->orderBy('created_at', 'desc')->take(3)->get();

@@ -26,6 +26,11 @@ class Komentar extends Model
         return $this->belongsTo(User::class);
     }
 
+    // public function konten()
+    // {
+    // return $this->belongsTo(Konten::class);
+    // }
+
     public function balas()
     {
         return $this->hasOne(Komentar::class);

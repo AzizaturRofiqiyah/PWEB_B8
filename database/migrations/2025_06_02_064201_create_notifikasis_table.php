@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->string('isi');
-            $table->boolean('isreaded')->default('false');
+            $table->boolean('isreaded')->default(false);
             $table->foreignId('user_id')->constrained();
             $table->string('link')->nullable();
             $table->enum('tipe',['success','warning','danger','info'])->default('info');

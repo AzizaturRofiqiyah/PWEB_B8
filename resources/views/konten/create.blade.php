@@ -13,8 +13,8 @@
             <div class="mb-6">
                 <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">Judul Artikel</label>
                 <input type="text" name="judul" id="judul" value="{{ old('judul') }}"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('judul') border-red-500 @enderror"
-                       required>
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('judul') border-red-500 @enderror"
+                    required>
                 @error('judul')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -23,8 +23,8 @@
             <div class="mb-6">
                 <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
                 <textarea name="deskripsi" id="deskripsi" rows="6"
-                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('deskripsi') border-red-500 @enderror"
-                          required>{{ old('deskripsi') }}</textarea>
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 @error('deskripsi') border-red-500 @enderror"
+                        required>{{ old('deskripsi') }}</textarea>
                 @error('deskripsi')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -33,8 +33,8 @@
             <div class="mb-6">
                 <label for="foto" class="block text-sm font-medium text-gray-700 mb-2">Gambar Artikel</label>
                 <input type="file" name="foto" id="foto"
-                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 @error('foto') border-red-500 @enderror"
-                       accept="image/*" required>
+                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 @error('foto') border-red-500 @enderror"
+                    accept="image/*" required>
                 @error('foto')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

@@ -7,18 +7,24 @@ use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 class KontenController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
-        $konten = Konten::paginate(10);
-        return view('konten.index',compact('konten'));
+        $konten = Konten::latest()->paginate(10);
+        return view('konten.index', compact('konten'));
     }
 
     public function show(Konten $konten)
     {
-        return view('konten.show',compact('konten'));
+        return view('konten.show', compact('konten'));
     }
 
     public function create()
@@ -36,25 +42,35 @@ class KontenController extends Controller
 
         $path = $request->file('foto')->store('konten', 'public');
 
-        Konten::create([
+        $konten = Konten::create([
             'judul' => $validated['judul'],
             'deskripsi' => $validated['deskripsi'],
             'foto' => $path,
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::id()
         ]);
 
-        return redirect()->route('konten.index')->with('success', 'Artikel berhasil dibuat!');
+        // Buat notifikasi
+        Notifikasi::create([
+            'user_id' => Auth::id(),
+            'judul' => 'Artikel Baru Dibuat',
+            'isi' => 'Anda baru saja membuat artikel: ' . $validated['judul']
+        ]);
+
+        return redirect()->route('konten.index')
+            ->with('success', 'Artikel berhasil dibuat!');
     }
 
     public function edit($id)
     {
         $konten = Konten::findOrFail($id);
+        $this->authorize('update', $konten);
         return view('konten.edit', compact('konten'));
     }
 
     public function update(Request $request, $id)
     {
         $konten = Konten::findOrFail($id);
+        $this->authorize('update', $konten);
 
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
@@ -68,8 +84,10 @@ class KontenController extends Controller
         ];
 
         if ($request->hasFile('foto')) {
-            // Delete old image
-            Storage::disk('public')->delete($konten->foto);
+            // Delete old image jika ada
+            if ($konten->foto && Storage::disk('public')->exists($konten->foto)) {
+                Storage::disk('public')->delete($konten->foto);
+            }
 
             // Store new image
             $path = $request->file('foto')->store('konten', 'public');
@@ -78,7 +96,23 @@ class KontenController extends Controller
 
         $konten->update($data);
 
-        return redirect()->route('konten.index')->with('success', 'Artikel berhasil diperbarui!');
+        return redirect()->route('konten.index')
+            ->with('success', 'Artikel berhasil diperbarui!');
     }
 
+    public function destroy($id)
+    {
+        $konten = Konten::findOrFail($id);
+        $this->authorize('delete', $konten);
+
+        // Hapus foto dari storage jika ada
+        if ($konten->foto && Storage::disk('public')->exists($konten->foto)) {
+            Storage::disk('public')->delete($konten->foto);
+        }
+
+        $konten->delete();
+
+        return redirect()->route('konten.index')
+            ->with('success', 'Artikel berhasil dihapus!');
+    }
 }

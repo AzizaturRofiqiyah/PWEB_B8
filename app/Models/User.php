@@ -24,7 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'institution_id'
     ];
 
     /**
@@ -57,7 +58,7 @@ class User extends Authenticatable
 
     public function institution()
     {
-        return $this->hasOne(Institution::class);
+        return $this->belongsTo(Institution::class);
     }
 
     public function konten()

@@ -13,6 +13,7 @@ class InstitutionController extends Controller
     public function index()
     {
         $institutions = Institution::query()
+            ->with('user')
             ->when(request('type'), fn($query) => $query->where('type', request('type')))
             ->when(request('status'), fn($query) => $query->where('status', request('status')))
             ->latest()
@@ -34,7 +35,7 @@ class InstitutionController extends Controller
     public function approve(Institution $institution)
     {
         $institution->update(['status' => 'sudah disetujui']);
-        $user = $institution->user()->first()->id;
+        $user = $institution->user()->first();
         $notifikasi = Notifikasi::create([
             'judul' => 'Institusi telah disetujui',
             'isi' => 'Sekarang institusi anda dapat mengajukan postingan beasiswa',

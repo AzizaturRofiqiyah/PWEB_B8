@@ -11,11 +11,6 @@ use App\Http\Controllers\Controller;
 
 class KontenController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['index', 'show']);
-    }
-
     public function index()
     {
         $konten = Konten::latest()->paginate(10);
@@ -40,16 +35,15 @@ class KontenController extends Controller
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        $path = $request->file('foto')->store('konten', 'public');
-
+        $path = $request->file('foto')->store('konten', 's3');
+        $path = supabase_public_url($path);
         $konten = Konten::create([
             'judul' => $validated['judul'],
             'deskripsi' => $validated['deskripsi'],
             'foto' => $path,
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
         ]);
 
-        // Buat notifikasi
         Notifikasi::create([
             'user_id' => Auth::id(),
             'judul' => 'Artikel Baru Dibuat',
@@ -63,14 +57,12 @@ class KontenController extends Controller
     public function edit($id)
     {
         $konten = Konten::findOrFail($id);
-        $this->authorize('update', $konten);
         return view('konten.edit', compact('konten'));
     }
 
     public function update(Request $request, $id)
     {
         $konten = Konten::findOrFail($id);
-        $this->authorize('update', $konten);
 
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
@@ -85,12 +77,13 @@ class KontenController extends Controller
 
         if ($request->hasFile('foto')) {
             // Delete old image jika ada
-            if ($konten->foto && Storage::disk('public')->exists($konten->foto)) {
-                Storage::disk('public')->delete($konten->foto);
+            if ($konten->foto && Storage::disk('s3')->exists($konten->foto)) {
+                Storage::disk('s3')->delete($konten->foto);
             }
 
             // Store new image
-            $path = $request->file('foto')->store('konten', 'public');
+            $path = $request->file('foto')->store('konten', 's3');
+            $path = supabase_public_url($path);
             $data['foto'] = $path;
         }
 
@@ -106,8 +99,8 @@ class KontenController extends Controller
         $this->authorize('delete', $konten);
 
         // Hapus foto dari storage jika ada
-        if ($konten->foto && Storage::disk('public')->exists($konten->foto)) {
-            Storage::disk('public')->delete($konten->foto);
+        if ($konten->foto && Storage::disk('s3')->exists($konten->foto)) {
+            Storage::disk('s3')->delete($konten->foto);
         }
 
         $konten->delete();

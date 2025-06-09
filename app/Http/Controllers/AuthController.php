@@ -97,14 +97,6 @@ class AuthController extends Controller
 
         $documentPath = supabase_public_url($documentPath);
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'phone' => $validated['phone'],
-            'role' => 'admin',
-        ]);
-
         $institution = Institution::create([
             'name' => $validated['institution_name'],
             'type' => $validated['institution_type'],
@@ -113,17 +105,23 @@ class AuthController extends Controller
             'document_path' => $documentPath,
         ]);
 
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'phone' => $validated['phone'],
+            'role' => 'admin',
+            'institution_id' => $institution['id']
+        ]);
+
         $notification = Notifikasi::create([
             'judul'=> 'Pendaftaran institusi baru',
-            'isi' => 'Akun bernama ' . $user->name ." mendaftarkan institusi baru",
+            'isi' => 'Akun bernama ' . $user->name ." mendaftarkan institusi baru"  . $institution->name ,
             'tipe' => 'info',
             'link' => '/institutions',
             'user_id' => User::findorFail(1)->id
         ]);
-
-        $user->institution()->save($institution);
-        $user->save();
-
+        
         Auth::login($user);
 
         return redirect('/dashboard')->with('success', 'Registrasi admin berhasil!');

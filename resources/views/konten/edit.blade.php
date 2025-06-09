@@ -33,7 +33,7 @@
 
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Saat Ini</label>
-                <img src="{{ asset('storage/' . $konten->foto) }}" alt="Current Image" class="h-48 w-auto mb-4 rounded-lg">
+                <img src="{{ $konten->foto }}" alt="Current Image" class="h-48 w-auto mb-4 rounded-lg">
 
                 <label for="foto" class="block text-sm font-medium text-gray-700 mb-2">Ganti Gambar (Opsional)</label>
                 <input type="file" name="foto" id="foto"

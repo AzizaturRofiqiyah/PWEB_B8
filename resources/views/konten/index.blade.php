@@ -7,7 +7,7 @@
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Daftar Artikel</h1>
         @if (Auth::user()?->role === 'admin' || Auth::user()?->role === 'super admin')
-            <a href="{{--  --}}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+            <a href="{{ route('konten.create')}}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                 + Buat Artikel Baru
             </a>
         @endif
@@ -22,7 +22,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
         @forelse ($konten as $item)
         <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}" class="w-full h-48 object-cover">
+            <img src="{{ $item->foto }}" alt="{{ $item->judul }}" class="w-full h-48 object-cover">
             <div class="p-6">
                 <div class="flex justify-between items-start mb-2">
                     <h2 class="text-xl font-bold text-gray-800">{{ $item->judul }}</h2>

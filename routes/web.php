@@ -20,8 +20,6 @@ Route::prefix('notifikasi')->group(function () {
     Route::delete('/{notification}', [NotifikasiController::class, 'destroy'])->name('notifications.destroy');
 });
 
-Route::get('/konten',[KontenController::class,'index'])->name('konten.index');
-Route::get('/konten/{konten}',[KontenController::class,'show'])->name('konten.show');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.store');
@@ -38,14 +36,14 @@ Route::middleware('auth')->group(function(){
     Route::post('/komentar', [KomentarController::class, 'store'])->name('comment.store');
     Route::delete('/komentar/{komentar}', [KomentarController::class, 'destroy'])->name('comment.destroy');
 
-    Route::middleware('super admin')->group(function(){
+    Route::middleware('superadmin')->group(function(){
 
         Route::delete('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'destroy'])->name('beasiswa.destroy');
         Route::post('/beasiswa/{beasiswa}/approve', [InformasiBeasiswaController::class, 'approve'])->name('beasiswa.approve');
         Route::prefix('konten')->group(function(){
-            Route::delete('/{id}', [KontenController::class, 'destroy'])->name('konten.destroy');
             Route::get('/create', [KontenController::class, 'create'])->name('konten.create');
             Route::post('/', [KontenController::class, 'store'])->name('konten.store');
+            Route::delete('/{id}', [KontenController::class, 'destroy'])->name('konten.destroy');
             Route::get('/{id}/edit', [KontenController::class, 'edit'])->name('konten.edit');
             Route::put('/{id}', [KontenController::class, 'update'])->name('konten.update');
         });
@@ -63,6 +61,8 @@ Route::middleware('auth')->group(function(){
     });
 });
 
+Route::get('/konten',[KontenController::class,'index'])->name('konten.index');
+Route::get('/konten/{konten}',[KontenController::class,'show'])->name('konten.show');
 
 Route::get('/beasiswa', [InformasiBeasiswaController::class, 'index'])->name('beasiswa.index');
 Route::get('/beasiswa/{beasiswa}', [InformasiBeasiswaController::class, 'show'])->name('beasiswa.show');

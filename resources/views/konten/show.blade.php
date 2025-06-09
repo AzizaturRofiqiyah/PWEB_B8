@@ -34,7 +34,7 @@
 
         <!-- Article Image -->
         <figure class="mb-8">
-            <img src="{{ asset('storage/' . $konten->foto) }}" alt="{{ $konten->judul }}" class="w-full rounded-lg shadow-md">
+            <img src="{{ $konten->foto }}" alt="{{ $konten->judul }}" class="w-full rounded-lg shadow-md">
         </figure>
 
         <!-- Article Content -->
@@ -45,10 +45,10 @@
         <!-- Action Buttons (for article owner) -->
         @if(auth()->check() && auth()->user()->id === $konten->user_id || auth()->user()->role === 'super admin')
         <div class="flex space-x-4 mt-8 pt-6 border-t border-gray-200">
-            <a href="{{--  --}}" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+            <a href="{{ route('konten.edit',$konten)}}" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                 Edit Artikel
             </a>
-            <form id="delete-form" action="{{--  --}}" method="POST">
+            <form id="delete-form" action="{{ route('konten.destroy',$konten)}}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="button" id="delete-button" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">

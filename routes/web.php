@@ -10,7 +10,7 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InformasiBeasiswaController;
 
-Route::get('/', fn() => view('welcome'));
+Route::get('/', [DashboardController::class,'welcome']);
 
 Route::prefix('notifikasi')->group(function () {
     Route::get('/', [NotifikasiController::class, 'index'])->name('notifications.index');

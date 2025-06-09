@@ -57,7 +57,7 @@
     <!-- Scholarship List -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse ($beasiswas as $beasiswa)
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 @if($beasiswa->status == 'sudah disetujui' && auth()->user()->role === "admin") border-green-500 @else border-amber-500 @endif">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 @if($beasiswa->status == 'sudah disetujui' && auth()->user()?->role === "admin") border-green-500 @else border-amber-500 @endif">
             @if($beasiswa->foto)
             <img src="{{ asset('storage/' . $beasiswa->foto) }}" alt="{{ $beasiswa->judul }}" class="w-full h-48 object-cover">
             @else
@@ -103,7 +103,7 @@
                         </button>
                     </form>
                     @else
-                        @if(auth()->user()->role !== 'user')
+                        @if(auth()->user()?->role !== 'user' && auth()->user() !== null)
                             <span class="text-xs px-2 py-1 rounded-full @if($beasiswa->status == 'sudah disetujui') bg-green-100 text-green-800 @else bg-amber-100 text-amber-800 @endif">
                                 {{ $beasiswa->status }}
                             </span>

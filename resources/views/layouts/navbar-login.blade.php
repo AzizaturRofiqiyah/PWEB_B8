@@ -11,7 +11,7 @@
                     <a href="{{ route('dashboard') }}" class="text-amber-200 hover:text-white py-2 rounded-md text-sm font-medium">Dashboard</a>
                     <a href="{{ route('konten.index') }}" class="text-amber-200 hover:text-white py-2 rounded-md text-sm font-medium">Konten</a>
                     <a href="{{ route('beasiswa.index') }}" class="text-amber-200 hover:text-white py-2 rounded-md text-sm font-medium">Beasiswa</a>
-                    @if (auth()->user()->role === 'super admin')
+                    @if (auth()->user()?->role === 'super admin')
                         <a href="{{ route('institutions.index') }}" class="text-amber-200 hover:text-white py-2 rounded-md text-sm font-medium">Institusi</a>
                     @endif
                 </div>

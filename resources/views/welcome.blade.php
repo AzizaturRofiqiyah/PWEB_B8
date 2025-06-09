@@ -23,8 +23,8 @@
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
-                <img src="{{ asset('images/hero-image.png') }}" alt="Student with laptop"
-                    class="w-full max-w-md">
+                <img src="{{ asset('asset\student_with_laptop.png') }}" alt="Student with laptop"
+                    class="w-full max-w-md rounded-md">
             </div>
         </div>
     </div>
@@ -207,115 +207,76 @@
             <div class="w-24 h-1 bg-amber-500 mx-auto mt-4"></div>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Scholarship Card 1 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="bg-amber-500 text-white px-4 py-2">
-                    <span class="text-sm font-semibold">Beasiswa Penuh</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Beasiswa LPDP</h3>
-                    <p class="text-gray-600 mb-4">Beasiswa S2/S3 dalam dan luar negeri dari pemerintah
-                        Indonesia</p>
-                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Dalam/Luar Negeri
-                    </div>
-                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Deadline: 30 Juni 2023
-                    </div>
-                    <a href="#"
-                        class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded transition duration-300">
-                        Lihat Detail
-                    </a>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach ($beasiswas as $beasiswa)
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 @if($beasiswa->status == 'sudah disetujui' && auth()->user()?->role === "admin") border-green-500 @else border-amber-500 @endif">
+            @if($beasiswa->foto)
+            <img src="{{ asset('storage/' . $beasiswa->foto) }}" alt="{{ $beasiswa->judul }}" class="w-full h-48 object-cover">
+            @else
+            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
             </div>
+            @endif
 
-            <!-- Scholarship Card 2 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="bg-amber-400 text-white px-4 py-2">
-                    <span class="text-sm font-semibold">Beasiswa Parsial</span>
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full @if($beasiswa->jenis == 'Penuh') bg-green-100 text-green-800 @else bg-blue-100 text-blue-800 @endif">
+                        {{ $beasiswa->jenis }}
+                    </span>
+                    <span class="text-xs text-gray-500">{{ $beasiswa->created_at->diffForHumans() }}</span>
                 </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Beasiswa Erasmus+</h3>
-                    <p class="text-gray-600 mb-4">Beasiswa studi di Eropa untuk mahasiswa internasional</p>
-                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Eropa
-                    </div>
-                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Deadline: 15 Januari 2023
-                    </div>
-                    <a href="#"
-                        class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded transition duration-300">
-                        Lihat Detail
-                    </a>
-                </div>
-            </div>
 
-            <!-- Scholarship Card 3 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="bg-amber-500 text-white px-4 py-2">
-                    <span class="text-sm font-semibold">Beasiswa Penuh</span>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">{{ $beasiswa->judul }}</h2>
+                <p class="text-gray-600 mb-4">{{ $beasiswa->deskripsi_singkat }}</p>
+
+                <div class="flex items-center text-sm text-gray-500 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {{ $beasiswa->wilayah }}
                 </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Beasiswa Kemenag</h3>
-                    <p class="text-gray-600 mb-4">Beasiswa untuk studi keagamaan di dalam negeri</p>
-                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Dalam Negeri
-                    </div>
-                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Deadline: 31 Maret 2023
-                    </div>
-                    <a href="#"
-                        class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded transition duration-300">
-                        Lihat Detail
+
+                <div class="flex items-center text-sm text-gray-500 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                        Deadline: {{ date('d M Y', strtotime($beasiswa->deadline)) }}
+                </div>
+
+                <div class="flex justify-between items-center">
+                    @if($beasiswa->status == 'menunggu persetujuan' && auth()->user() && auth()->user()->role === "super admin")
+                    <form action="{{ route('beasiswa.approve', $beasiswa) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="text-xs bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-3 rounded transition duration-300">
+                            Setujui
+                        </button>
+                    </form>
+                    @else
+                        @if(auth()->user()?->role !== 'user' && auth()->check())
+                            <span class="text-xs px-2 py-1 rounded-full @if($beasiswa->status == 'sudah disetujui') bg-green-100 text-green-800 @else bg-amber-100 text-amber-800 @endif">
+                                {{ $beasiswa->status }}
+                            </span>
+                        @endif
+                    @endif
+
+                    <a href="{{ route('beasiswa.show', $beasiswa) }}" class="text-amber-600 hover:text-amber-700 font-medium text-sm">
+                        Lihat Detail →
                     </a>
                 </div>
             </div>
         </div>
-
-        <div class="text-center mt-12">
-            <a href="#"
-                class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
+        @endforeach
+    </div>
+    <div class="flex justify-center mt-12 w-full">
+            <a href="{{ route('beasiswa.index') }}"
+                class=" bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
                 Lihat Semua Beasiswa
             </a>
-        </div>
     </div>
+</div>
 </section>
 
 <!-- About Section -->
@@ -333,9 +294,9 @@
                 <p class="text-gray-700">Dengan tim yang terdiri dari para penerima beasiswa berpengalaman,
                     kami memahami betul tantangan yang dihadapi dan berusaha memberikan solusi terbaik.</p>
             </div>
-            <div class="md:w-1/2">
-                <img src="{{ asset('images/about-image.jpg') }}" alt="Team meeting"
-                    class="rounded-lg shadow-lg w-full">
+            <div class="md:w-1/2 items-center">
+                <img src="{{ asset('asset/team_meeting.webp') }}" alt="Team meeting"
+                    class="rounded-lg shadow-lg max-w-xl">
             </div>
         </div>
     </div>
@@ -477,7 +438,7 @@
         <div class="grid md:grid-cols-4 gap-8">
             <div class="mb-8 md:mb-0">
                 <div class="flex items-center space-x-2 mb-4">
-                    <img src="{{ asset('images/logo-white.png') }}" class="h-8 w-8" alt="ScholarMate Icon">
+                    <img src="{{ asset('graduation-cap-solid.svg') }}" class="h-8 w-8" alt="ScholarMate Icon">
                     <span class="text-xl font-bold">ScholarMate</span>
                 </div>
                 <p class="text-gray-400">Platform informasi beasiswa terintegrasi untuk membantu mahasiswa

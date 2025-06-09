@@ -1,22 +1,19 @@
 <nav class="sticky top-0 bg-amber-600 text-white shadow-lg">
     <div class="container mx-auto sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-            <div class="flex items-center">
+            <div class="flex items-center space-x-5">
                 <div class="flex items-center space-x-2">
                     <i class="fas fa-graduation-cap text-2xl"></i>
                     <span class="text-xl font-bold">ScholarMate</span>
                 </div>
+                <div class="hidden md:flex">
+                    <a href="/" class="hover:text-amber-200 font-medium px-3 py-2">Beranda</a>
+                    <a href="/beasiswa" class="hover:text-amber-200 font-medium px-3 py-2">Beasiswa</a>
+                    <a href="/konten" class="hover:text-amber-200 font-medium px-3 py-2">Artikel</a>
+                </div>
             </div>
 
             <div class="flex items-center space-x-5">
-                <div class="hidden md:flex">
-                    <a href="#" class="hover:text-amber-200 font-medium px-3 py-2">Beranda</a>
-                    <a href="#fitur" class="hover:text-amber-200 font-medium px-3 py-2">Fitur</a>
-                    <a href="#beasiswa" class="hover:text-amber-200 font-medium px-3 py-2">Daftar Beasiswa</a>
-                    <a href="#tentang" class="hover:text-amber-200 font-medium px-3 py-2">Tentang Kami</a>
-                    <a href="#faq" class="hover:text-amber-200 font-medium px-3 py-2">FAQ</a>
-                </div>
-
                 <div class="hidden md:block">
                     <a href="{{ route('login') }}" class="whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-amber-600 bg-white hover:bg-amber-50 transition duration-300">
                         Masuk

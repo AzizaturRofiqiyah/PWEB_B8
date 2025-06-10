@@ -22,13 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-    //     View::composer('*', function ($view) {
-    //     if (Auth::check()) {
-    //         $notif = Auth::user()->notifikasi->where('isreaded', false)->count();
-    //         $view->with('notif', $notif);
-    //     }
+        View::composer('*', function ($view) {
+        if (Auth::check()) {
+            $notif = Auth::user()->notifikasi->where('isreaded', false)->count();
+            $view->with('notif', $notif);
+        }
 
-    // });
+    });
     if (env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }

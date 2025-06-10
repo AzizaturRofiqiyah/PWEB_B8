@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\SendEmail;
+use App\Models\Notifikasi;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
@@ -38,6 +41,25 @@ class SocialAuthController extends Controller
         }
 
         Auth::login($user);
+
+        $notifikasi = Notifikasi::create([
+            'judul' => 'Selamat Datang di SchoolarMate 🎉',
+            'isi' => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.
+                        Sekarang kamu bisa langsung menjelajahi berbagai informasi beasiswa yang sesuai dengan minat, jenjang pendidikan, atau tujuan studimu. Jangan lupa lengkapi profilmu.
+                        Ayo mulai langkah pertamamu menuju masa depan yang gemilang!',
+            'link' => '/beasiswa',
+            'tipe' => 'info',
+            'user_id' => $user->id
+        ]);
+
+        $details = [
+            'title' => 'Selamat Datang di ScholarMate 🎉',
+            'body'  => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.
+                        Sekarang kamu bisa langsung menjelajahi berbagai informasi beasiswa yang sesuai dengan minat, jenjang pendidikan, atau tujuan studimu. Jangan lupa lengkapi profilmu.
+                        Ayo mulai langkah pertamamu menuju masa depan yang gemilang!'
+        ];
+
+        Mail::to($user->email)->send(new SendEmail($details));
 
         return redirect('/dashboard');
     }

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendEmail;
 use App\Models\Notifikasi;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class InstitutionController extends Controller
 {
-
     public function index()
     {
         $institutions = Institution::query()
@@ -43,6 +44,16 @@ class InstitutionController extends Controller
             'tipe' => 'success',
             'user_id' => $user->id
         ]);
+
+        // Kirim email notifikasi
+
+        $details = [
+            'title' => 'Institusi telah disetujui',
+            'body'  => 'Sekarang institusi anda dapat mengajukan postingan beasiswa'
+        ];
+
+        Mail::to($user->email)->send(new SendEmail($details));
+
         return back()->with('success', 'Institusi telah disetujui');
     }
 

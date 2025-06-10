@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendEmail;
+use App\Models\Notifikasi;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 use App\Models\InformasiBeasiswa;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class InformasiBeasiswaController extends Controller
 {
     public function index(Request $request)
     {
+        $institution = null;
+        if (Auth::user()?->institution_id) {
+            $institution = Institution::find(Auth::user()->institution_id);
+        }
         $query = InformasiBeasiswa::query();
 
         if ($request->filled('jenis')) {
@@ -35,7 +43,7 @@ class InformasiBeasiswaController extends Controller
             $beasiswas = $query->where('status','sudah disetujui')->orderBy('created_at', 'desc')->paginate(9);
         }
 
-        return view('beasiswa.index', compact('beasiswas'));
+        return view('beasiswa.index', compact('beasiswas','institution'));
     }
 
 
@@ -47,6 +55,23 @@ class InformasiBeasiswaController extends Controller
     public function approve(InformasiBeasiswa $beasiswa)
     {
         $beasiswa->update(['status' => 'sudah disetujui']);
+        $user = $beasiswa->user()->first();
+        $notifikasi = Notifikasi::create([
+            'judul' => 'Beasiswa telah disetujui',
+            'isi' => 'Beasiswa anda telah disetujui dan dapat dilihat di halaman beasiswa.',
+            'link' => '/beasiswa/' . $beasiswa->id,
+            'tipe' => 'success',
+            'user_id' => $user->id
+        ]);
+
+        // Kirim email notifikasi
+
+        Mail::to($user->email)->send(new SendEmail(
+            'Beasiswa Disetujui',
+            'Beasiswa Anda telah disetujui. Silakan cek halaman beasiswa untuk detail lebih lanjut.',
+            $notifikasi->isi
+        ));
+
         return back()->with('success', 'Beasiswa telah disetujui');
     }
 
@@ -66,6 +91,18 @@ class InformasiBeasiswaController extends Controller
             'jenis' => 'required|in:Penuh,Parsial',
             'wilayah' => 'required|in:Dalam Negeri,Luar Negeri,Dalam/Luar Negeri',
             'link_pendaftaran' => 'required|url'
+        ],[
+            'judul.required' => 'Judul wajib diisi.',
+            'deskripsi_singkat.required' => 'Deskripsi singkat wajib diisi.',
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deadline.required' => 'Deadline wajib diisi.',
+            'foto.image' => 'Foto harus berupa gambar.',
+            'foto.mimes' => 'Foto harus berupa file JPEG, PNG, atau JPG.',
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'jenis.required' => 'Jenis beasiswa wajib dipilih.',
+            'wilayah.required' => 'Wilayah beasiswa wajib dipilih.',
+            'link_pendaftaran.required' => 'Link pendaftaran wajib diisi.',
+            'link_pendaftaran.url' => 'Format link pendaftaran tidak valid.'
         ]);
 
         $data = $validated;
@@ -101,12 +138,24 @@ class InformasiBeasiswaController extends Controller
             'jenis' => 'required|in:Penuh,Parsial',
             'wilayah' => 'required|in:Dalam Negeri,Luar Negeri,Dalam/Luar Negeri',
             'link_pendaftaran' => 'required|url'
+        ],[
+            'judul.required' => 'Judul wajib diisi.',
+            'deskripsi_singkat.required' => 'Deskripsi singkat wajib diisi.',
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deadline.required' => 'Deadline wajib diisi.',
+            'foto.image' => 'Foto harus berupa gambar.',
+            'foto.mimes' => 'Foto harus berupa file JPEG, PNG, atau JPG.',
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'jenis.required' => 'Jenis beasiswa wajib dipilih.',
+            'wilayah.required' => 'Wilayah beasiswa wajib dipilih.',
+            'link_pendaftaran.required' => 'Link pendaftaran wajib diisi.',
+            'link_pendaftaran.url' => 'Format link pendaftaran tidak valid.'
         ]);
 
         $data = $validated;
 
         if ($request->hasFile('foto')) {
-            // Delete old image if exists
+
             if ($beasiswa->foto) {
                 Storage::disk('s3')->delete($beasiswa->foto);
             }
@@ -124,7 +173,6 @@ class InformasiBeasiswaController extends Controller
     {
         $beasiswa = InformasiBeasiswa::findOrFail($id);
 
-        // Delete image if exists
         if ($beasiswa->foto) {
             Storage::disk('s3')->delete($beasiswa->foto);
         }

@@ -7,18 +7,23 @@
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Daftar Beasiswa</h1>
         @auth
-        @if (auth()->user()->role === 'admin' )
+        @if (auth()?->user()->role === 'admin' && $institution->status === 'sudah disetujui')
             <a href="{{ route('beasiswa.create') }}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                 + Tambah Beasiswa
             </a>
         @endif
     @endauth
-
     </div>
 
     @if(session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
         <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+    @endif
+
+    @if(auth()->user()?->role === 'admin' && $institution->status === 'menunggu persetujuan')
+    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-6" role="alert">
+        <span class="block sm:inline">Institusi anda belum disetujui</span>
     </div>
     @endif
 

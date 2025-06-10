@@ -51,7 +51,6 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -75,11 +74,23 @@ class AuthController extends Controller
         Auth::login($user);
 
         $details = [
-            'title' => 'Selamat Datang di SchoolarMate',
-            'body'  => 'Silahkan tunggu admin untuk melakukan verifikasi akun. Admin akan mengirim email saat akun telah di verifikasi'
+            'title' => 'Selamat Datang di ScholarMate 🎉',
+            'body'  => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.
+                        Sekarang kamu bisa langsung menjelajahi berbagai informasi beasiswa yang sesuai dengan minat, jenjang pendidikan, atau tujuan studimu. Jangan lupa lengkapi profilmu.
+                        Ayo mulai langkah pertamamu menuju masa depan yang gemilang!'
         ];
 
         Mail::to($request->email)->send(new SendEmail($details));
+
+        $notifikasi = Notifikasi::create([
+            'judul' => 'Selamat Datang di SchoolarMate',
+            'isi' => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.
+                        Sekarang kamu bisa langsung menjelajahi berbagai informasi beasiswa yang sesuai dengan minat, jenjang pendidikan, atau tujuan studimu. Jangan lupa lengkapi profilmu.
+                        Ayo mulai langkah pertamamu menuju masa depan yang gemilang!',
+            'link' => '/beasiswa',
+            'tipe' => 'info',
+            'user_id' => $user->id
+        ]);
 
         return redirect('/dashboard');
     }
@@ -98,7 +109,24 @@ class AuthController extends Controller
             'institution_document' => 'required|file|mimes:pdf,jpg,png|max:2048',
             'password' => 'required|string|min:8|confirmed',
             'terms' => 'required|accepted',
-        ]);
+        ],['name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email tidak boleh kosong.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+            'phone.required' => 'Nomor telepon wajib diisi.',
+            'position.required' => 'Jabatan wajib diisi.',
+            'institution_name.required' => 'Nama institusi wajib diisi.',
+            'institution_type.required' => 'Jenis institusi wajib diisi.',
+            'institution_address.required' => 'Alamat institusi wajib diisi.',
+            'institution_website.url' => 'Format website tidak valid.',
+            'institution_document.required' => 'Dokumen institusi wajib diunggah.',
+            'institution_document.file' => 'Dokumen harus berupa file.',
+            'institution_document.mimes' => 'Dokumen harus berupa file PDF, JPG, atau PNG.',
+            'institution_document.max' => 'Ukuran dokumen maksimal 2MB.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'terms.accepted' => 'Anda harus menyetujui syarat dan ketentuan.']);
 
         $institution_document = $validated['institution_document'];
 
@@ -125,20 +153,32 @@ class AuthController extends Controller
 
         $notification = Notifikasi::create([
             'judul'=> 'Pendaftaran institusi baru',
-            'isi' => 'Akun bernama ' . $user->name ." mendaftarkan institusi baru"  . $institution->name ,
+            'isi' => 'Akun bernama ' . $user->name ." mendaftarkan institusi baru "  . $institution->name ,
             'tipe' => 'info',
             'link' => '/institutions',
             'user_id' => User::findorFail(1)->id
         ]);
 
+        //Email dan notifikasi super admin
+
         Auth::login($user);
 
-            $details = [
+        $details = [
             'title' => 'Selamat Datang di SchoolarMate',
             'body'  => 'Silahkan tunggu admin untuk melakukan verifikasi akun. Admin akan mengirim email saat akun telah di verifikasi'
         ];
 
+        $notifikasi = Notifikasi::create([
+            'judul' => 'Selamat Datang di SchoolarMate',
+            'isi' => 'Silahkan tunggu admin untuk melakukan verifikasi akun. Admin akan mengirim email saat akun telah di verifikasi',
+            'link' => '/dashboard',
+            'tipe' => 'info',
+            'user_id' => $user->id
+        ]);
+
         Mail::to($validated['email'])->send(new SendEmail($details));
+
+        //Email dan notifikasi admin
 
         return redirect('/dashboard')->with('success', 'Registrasi admin berhasil!');
     }

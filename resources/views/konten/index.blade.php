@@ -6,7 +6,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Daftar Artikel</h1>
-        @if (Auth::user()?->role === 'admin' || Auth::user()?->role === 'super admin')
+        @if (Auth::user()?->role === 'super admin')
             <a href="{{ route('konten.create')}}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                 + Buat Artikel Baru
             </a>
@@ -43,7 +43,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <h3 class="mt-4 text-lg font-medium text-gray-900">Belum ada artikel</h3>
+            @if (Auth::user()?->role === 'super admin')
             <p class="mt-1 text-sm text-gray-500">Silakan buat artikel pertama Anda.</p>
+            @endif
         </div>
         @endforelse
     </div>

@@ -42,7 +42,6 @@ class DashboardController extends Controller
         $totalBeasiswa = InformasiBeasiswa::count();
         $totalAdmin = User::where('role', 'admin')->count();
         $totalUser = User::where('role', 'user')->count();
-
         $unverifiedBeasiswas = InformasiBeasiswa::where('status', 'pending')->get();
         $kontens = Konten::all();
         $notifikasis = Notifikasi::latest()->take(5)->get();

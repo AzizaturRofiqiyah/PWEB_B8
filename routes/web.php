@@ -11,6 +11,10 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\InformasiBeasiswaController;
+use App\Http\Controllers\ProfileController;
+
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('/', [DashboardController::class,'welcome']);
 

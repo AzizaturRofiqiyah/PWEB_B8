@@ -57,9 +57,9 @@ class DashboardController extends Controller
     }
     public function user()
     {
-        $rekomendasibeasiswa = InformasiBeasiswa::where('status','sudah disetujui')->orderBy('created_at', 'desc')->take(3)->get();
+        $beasiswas = InformasiBeasiswa::where('status','sudah disetujui')->orderBy('created_at', 'desc')->take(3)->get();
         $rekomendasikonten = Konten::orderby('tanggal_upload')->take(3)->get();
-        return view('user.dashboard',compact('rekomendasibeasiswa','rekomendasikonten'));
+        return view('user.dashboard',compact('beasiswas','rekomendasikonten'));
     }
 
     public function welcome()

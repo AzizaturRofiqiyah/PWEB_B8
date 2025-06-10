@@ -14,7 +14,7 @@ use App\Http\Controllers\InformasiBeasiswaController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-Route::get('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('/', [DashboardController::class,'welcome']);
 

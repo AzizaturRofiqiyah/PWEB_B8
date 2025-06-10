@@ -49,6 +49,9 @@ class InformasiBeasiswaController extends Controller
 
     public function show(InformasiBeasiswa $beasiswa)
     {
+        $beasiswa->load(['komentar' => function($q) {
+        $q->orderBy('created_at', 'asc')->with('user');
+        }]);
         return view('beasiswa.show',compact('beasiswa'));
     }
 

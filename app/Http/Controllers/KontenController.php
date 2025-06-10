@@ -107,11 +107,9 @@ class KontenController extends Controller
     public function destroy($id)
     {
         $konten = Konten::findOrFail($id);
-        $this->authorize('delete', $konten);
 
-        if ($konten->foto && Storage::disk('s3')->exists($konten->foto)) {
-            Storage::disk('s3')->delete($konten->foto);
-        }
+
+        Storage::disk('s3')->delete($konten->foto);
 
         $konten->delete();
 

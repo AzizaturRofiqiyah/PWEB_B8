@@ -20,6 +20,7 @@ class InformasiBeasiswa extends Model
         'link_pendaftaran',
         'jenis',
         'wilayah',
+        'user_id'
     ];
 
     public function user()

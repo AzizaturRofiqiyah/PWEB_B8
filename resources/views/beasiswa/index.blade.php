@@ -7,7 +7,7 @@
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Daftar Beasiswa</h1>
         @auth
-        @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super admin')
+        @if (auth()->user()->role === 'admin' )
             <a href="{{ route('beasiswa.create') }}" class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                 + Tambah Beasiswa
             </a>
@@ -59,7 +59,7 @@
         @forelse ($beasiswas as $beasiswa)
         <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border-l-4 @if($beasiswa->status == 'sudah disetujui' && auth()->user()?->role === "admin") border-green-500 @else border-amber-500 @endif">
             @if($beasiswa->foto)
-            <img src="{{ asset('storage/' . $beasiswa->foto) }}" alt="{{ $beasiswa->judul }}" class="w-full h-48 object-cover">
+            <img src="{{ $beasiswa->foto }}" alt="{{ $beasiswa->judul }}" class="w-full h-48 object-cover">
             @else
             <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

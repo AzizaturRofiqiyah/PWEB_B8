@@ -81,7 +81,7 @@ class KontenController extends Controller
                 Storage::disk('s3')->delete($konten->foto);
             }
 
-            // Store new image
+         
             $path = $request->file('foto')->store('konten', 's3');
             $path = supabase_public_url($path);
             $data['foto'] = $path;

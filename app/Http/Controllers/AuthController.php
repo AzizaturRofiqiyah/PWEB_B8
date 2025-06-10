@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\SendEmail;
 use App\Models\Notifikasi;
 use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
@@ -72,6 +74,13 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        $details = [
+            'title' => 'Selamat Datang di SchoolarMate',
+            'body'  => 'Silahkan tunggu admin untuk melakukan verifikasi akun. Admin akan mengirim email saat akun telah di verifikasi'
+        ];
+
+        Mail::to($request->email)->send(new SendEmail($details));
+
         return redirect('/dashboard');
     }
 
@@ -121,8 +130,15 @@ class AuthController extends Controller
             'link' => '/institutions',
             'user_id' => User::findorFail(1)->id
         ]);
-        
+
         Auth::login($user);
+
+            $details = [
+            'title' => 'Selamat Datang di SchoolarMate',
+            'body'  => 'Silahkan tunggu admin untuk melakukan verifikasi akun. Admin akan mengirim email saat akun telah di verifikasi'
+        ];
+
+        Mail::to($validated['email'])->send(new SendEmail($details));
 
         return redirect('/dashboard')->with('success', 'Registrasi admin berhasil!');
     }

@@ -114,7 +114,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">Foto Saat Ini</label>
                     @if($beasiswa->foto)
                         <div class="mt-2">
-                            <img src="{{ asset('storage/' . $beasiswa->foto) }}" alt="Foto Beasiswa" class="h-32 w-auto rounded-lg">
+                            <img src="{{ $beasiswa->foto) }}" alt="Foto Beasiswa" class="h-32 w-auto rounded-lg">
                         </div>
                     @else
                         <div class="mt-2 h-32 w-32 bg-gray-200 rounded-lg flex items-center justify-center">

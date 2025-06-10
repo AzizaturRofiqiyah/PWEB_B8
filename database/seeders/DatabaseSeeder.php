@@ -35,13 +35,13 @@ class DatabaseSeeder extends Seeder
             'password' => '12345678',
             'role' => 'user'
         ]);
-        InformasiBeasiswa::factory(10)->create([
-            'user_id' => 2
-        ]);
-        Notifikasi::factory(5)->create([
-            'user_id' => 1
-        ]);
-        Konten::factory(10)->create();
-        Komentar::factory(10)->create();
+        // InformasiBeasiswa::factory(10)->create([
+        //     'user_id' => 2
+        // ]);
+        // Notifikasi::factory(5)->create([
+        //     'user_id' => 1
+        // ]);
+        // Konten::factory(10)->create();
+        // Komentar::factory(10)->create();
     }
 }

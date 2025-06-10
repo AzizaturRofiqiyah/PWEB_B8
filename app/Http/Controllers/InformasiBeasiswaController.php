@@ -25,8 +25,14 @@ class InformasiBeasiswaController extends Controller
         {
             $beasiswas = $query->where('status','sudah disetujui')->orderBy('created_at', 'desc')->paginate(9);
         }
-        else {
+        else if( auth::user()?->role === 'admin' || auth::check() === null ) {
+            $beasiswas = $query->where('user_id',auth::user()->id)->orderBy('created_at', 'desc')->paginate(9);
+        }
+        else if (auth::user()?->role === 'super admin'){
             $beasiswas = $query->orderBy('created_at', 'desc')->paginate(9);
+        }
+        else{
+            $beasiswas = $query->where('status','sudah disetujui')->orderBy('created_at', 'desc')->paginate(9);
         }
 
         return view('beasiswa.index', compact('beasiswas'));
@@ -66,7 +72,9 @@ class InformasiBeasiswaController extends Controller
         $data['user_id'] = Auth::user()->id;
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('beasiswa', 'public');
+            $link = $request->file('foto')->store('beasiswa', 's3');
+            $link = supabase_public_url($link);
+            $data['foto'] = $link;
         }
 
         InformasiBeasiswa::create($data);
@@ -100,9 +108,11 @@ class InformasiBeasiswaController extends Controller
         if ($request->hasFile('foto')) {
             // Delete old image if exists
             if ($beasiswa->foto) {
-                Storage::disk('public')->delete($beasiswa->foto);
+                Storage::disk('s3')->delete($beasiswa->foto);
             }
-            $data['foto'] = $request->file('foto')->store('beasiswa', 'public');
+            $link = $request->file('foto')->store('beasiswa', 's3');
+            $link = supabase_public_url($link);
+            $data['foto'] = $link;
         }
 
         $beasiswa->update($data);
@@ -116,7 +126,7 @@ class InformasiBeasiswaController extends Controller
 
         // Delete image if exists
         if ($beasiswa->foto) {
-            Storage::disk('public')->delete($beasiswa->foto);
+            Storage::disk('s3')->delete($beasiswa->foto);
         }
 
         $beasiswa->delete();

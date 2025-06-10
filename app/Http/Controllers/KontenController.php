@@ -33,6 +33,12 @@ class KontenController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ],['judul.required' => 'Judul harus diisi',
+            'deskripsi.required' => 'Deskripsi harus diisi',
+            'foto.required' => 'Foto harus diunggah',
+            'foto.image' => 'File yang diunggah harus berupa gambar',
+            'foto.mimes' => 'Format gambar yang diperbolehkan: jpeg, png, jpg',
+            'foto.max' => 'Ukuran gambar maksimal 2MB'
         ]);
 
         $path = $request->file('foto')->store('konten', 's3');
@@ -68,6 +74,12 @@ class KontenController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ],[
+            'judul.required' => 'Judul harus diisi',
+            'deskripsi.required' => 'Deskripsi harus diisi',
+            'foto.image' => 'File yang diunggah harus berupa gambar',
+            'foto.mimes' => 'Format gambar yang diperbolehkan: jpeg, png, jpg',
+            'foto.max' => 'Ukuran gambar maksimal 2MB'
         ]);
 
         $data = [
@@ -76,12 +88,11 @@ class KontenController extends Controller
         ];
 
         if ($request->hasFile('foto')) {
-            // Delete old image jika ada
+
             if ($konten->foto && Storage::disk('s3')->exists($konten->foto)) {
                 Storage::disk('s3')->delete($konten->foto);
             }
 
-         
             $path = $request->file('foto')->store('konten', 's3');
             $path = supabase_public_url($path);
             $data['foto'] = $path;
@@ -98,7 +109,6 @@ class KontenController extends Controller
         $konten = Konten::findOrFail($id);
         $this->authorize('delete', $konten);
 
-        // Hapus foto dari storage jika ada
         if ($konten->foto && Storage::disk('s3')->exists($konten->foto)) {
             Storage::disk('s3')->delete($konten->foto);
         }

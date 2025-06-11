@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\InformasiBeasiswa;
+use App\Models\Institution;
 use App\Models\Komentar;
 use App\Models\Konten;
 use App\Models\Notifikasi;
@@ -27,7 +28,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => '12345678',
-            'role' => 'admin'
+            'role' => 'admin',
+            'institution_id' => Institution::factory()->create([
+                'name' => 'Test Institution',
+                'type' => 'University',
+                'address' => '123 Test St, Test City',
+                'website' => 'https://testinstitution.example.com',
+                'document_path' => 'documents/test_institution.pdf',
+                'status' => 'sudah disetujui'
+            ])->id
         ]);
         User::factory()->create([
             'name' => 'User Tester',

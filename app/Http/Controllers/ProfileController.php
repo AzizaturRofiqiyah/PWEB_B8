@@ -14,14 +14,14 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         if ($user && $user->role === 'user'){
-            return view('profile.show', compact('user'));
+            return view('Profile.show', compact('user'));
         }
         else if($user && $user->role === 'admin'){
             $institution = Institution::where('id',$user->institution_id)->first(); // Mengambil institution berdasarkan institution_id dari user yang sedang login
-            return view('profile.showadmin',compact('user','institution'));
+            return view('Profile.showadmin',compact('user','institution'));
         }
         else if($user && $user->role === 'super admin'){
-            return view('profile.showsuperadmin',compact('user'));
+            return view('Profile.showsuperadmin',compact('user'));
         }
 
     }

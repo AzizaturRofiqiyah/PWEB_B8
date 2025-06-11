@@ -54,9 +54,7 @@ class SocialAuthController extends Controller
 
         $details = [
             'title' => 'Selamat Datang di ScholarMate 🎉',
-            'body'  => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.
-                        Sekarang kamu bisa langsung menjelajahi berbagai informasi beasiswa yang sesuai dengan minat, jenjang pendidikan, atau tujuan studimu. Jangan lupa lengkapi profilmu.
-                        Ayo mulai langkah pertamamu menuju masa depan yang gemilang!'
+            'body'  => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.'
         ];
 
         Mail::to($user->email)->send(new SendEmail($details));

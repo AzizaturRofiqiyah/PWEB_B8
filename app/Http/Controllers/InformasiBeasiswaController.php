@@ -69,11 +69,12 @@ class InformasiBeasiswaController extends Controller
 
         // Kirim email notifikasi
 
-        Mail::to($user->email)->send(new SendEmail(
-            'Beasiswa Disetujui',
-            'Beasiswa Anda telah disetujui. Silakan cek halaman beasiswa untuk detail lebih lanjut.',
-            $notifikasi->isi
-        ));
+        $details = [
+            'title' => 'Beasiswa Disetujui 🎉',
+            'body'  => 'Beasiswa Anda telah disetujui. Silakan cek halaman beasiswa untuk detail lebih lanjut.'
+        ];
+
+        Mail::to($user->email)->send(new SendEmail($details));
 
         return back()->with('success', 'Beasiswa telah disetujui');
     }

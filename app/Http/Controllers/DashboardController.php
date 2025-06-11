@@ -34,7 +34,21 @@ class DashboardController extends Controller
 
     public function admin()
     {
-        return view('admin.dashboard');
+        $totalBeasiswa = InformasiBeasiswa::where('user_id', Auth::id())->count();
+        $beasiswasdisetujui = InformasiBeasiswa::where('user_id', Auth::id())
+            ->where('status', 'sudah disetujui')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        $beasiswabelumdisetujui = InformasiBeasiswa::where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+            
+        $beasiswas = InformasiBeasiswa::where('status','sudah disetujui')->where('user_id', Auth::id())->orderBy('created_at', 'desc')->take(3)->get();
+        return view('admin.dashboard',compact('totalBeasiswa','beasiswasdisetujui','beasiswabelumdisetujui','beasiswas'));
     }
 
     public function superadmin()
@@ -55,6 +69,7 @@ class DashboardController extends Controller
             'notifikasis'
         ));
     }
+
     public function user()
     {
         $beasiswas = InformasiBeasiswa::where('status','sudah disetujui')->orderBy('created_at', 'desc')->take(3)->get();

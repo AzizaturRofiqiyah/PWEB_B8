@@ -13,7 +13,7 @@
                 </a>
             </div>
             <div class="flex items-center">
-                <a href="{{ route('login') }}" class="text-amber-200 hover:text-white font-medium">Sudah punya akun? Masuk</a>
+                <a href="{{ route('login') }}" class="text-amber-200 hover:text-white font-medium">Masuk</a>
             </div>
         </div>
     </div>

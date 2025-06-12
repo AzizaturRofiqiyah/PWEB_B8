@@ -14,8 +14,8 @@
                 </a>
             </div>
             <div class="flex items-center space-x-5">
-                <a href="{{ route('register-admin') }}" class="text-amber-200 hover:text-white font-medium">Akun instansi?<br>Daftar disini</a>
-                <a href="{{ route('register') }}" class="text-amber-200 hover:text-white font-medium">Belum punya akun?<br>Daftar</a>
+                <a href="{{ route('register-admin') }}" class="text-amber-200 hover:text-white font-medium">Registrasi instansi</a>
+                <a href="{{ route('register') }}" class="text-amber-200 hover:text-white font-medium">Registrasi user</a>
             </div>
         </div>
     </div>

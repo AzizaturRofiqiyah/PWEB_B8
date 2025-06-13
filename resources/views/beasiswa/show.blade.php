@@ -29,7 +29,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <div>
                         <span class="px-3 py-1 text-sm font-semibold rounded-full @if($beasiswa->jenis == 'Penuh') bg-green-100 text-green-800 @else bg-blue-100 text-blue-800 @endif">
-                            {{ $beasiswa->jenis }}
+                            Beasiswa {{ $beasiswa->jenis }}
                         </span>
                         @if(auth()->user() && (auth()->user()->role === 'admin' || auth()->user()->role === 'super admin'))
                         <span class="ml-2 px-3 py-1 text-sm font-semibold rounded-full @if($beasiswa->status == 'sudah disetujui') bg-green-100 text-green-800 @else bg-amber-100 text-amber-800 @endif">

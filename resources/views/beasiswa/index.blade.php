@@ -76,7 +76,7 @@
             <div class="p-6">
                 <div class="flex justify-between items-start mb-2">
                     <span class="px-2 py-1 text-xs font-semibold rounded-full @if($beasiswa->jenis == 'Penuh') bg-green-100 text-green-800 @else bg-blue-100 text-blue-800 @endif">
-                        {{ $beasiswa->jenis }}
+                        Beasiswa {{ $beasiswa->jenis }}
                     </span>
                     <span class="text-xs text-gray-500">{{ $beasiswa->created_at->diffForHumans() }}</span>
                 </div>

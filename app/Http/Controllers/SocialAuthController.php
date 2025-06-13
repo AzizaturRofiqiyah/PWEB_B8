@@ -38,24 +38,24 @@ class SocialAuthController extends Controller
                 'password' => bcrypt(Str::random(12)),
                 'email_verified_at' => now(),
             ]);
-        }
 
-        Auth::login($user);
-
-        $notifikasi = Notifikasi::create([
+            $notifikasi = Notifikasi::create([
             'judul' => 'Selamat Datang di SchoolarMate 🎉',
             'isi' => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.',
             'link' => '/beasiswa',
             'tipe' => 'info',
             'user_id' => $user->id
-        ]);
+            ]);
 
-        $details = [
-            'title' => 'Selamat Datang di ScholarMate 🎉',
-            'body'  => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.'
-        ];
+            $details = [
+                'title' => 'Selamat Datang di ScholarMate 🎉',
+                'body'  => 'Terima kasih telah bergabung di ScholarMate — teman perjalananmu menuju beasiswa impian! Akunmu telah berhasil dibuat dan siap digunakan.'
+            ];
 
-        Mail::to($user->email)->send(new SendEmail($details));
+            Mail::to($user->email)->send(new SendEmail($details));
+        }
+
+        Auth::login($user);
 
         return redirect('/dashboard');
     }

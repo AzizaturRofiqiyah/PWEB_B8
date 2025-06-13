@@ -34,7 +34,7 @@
 
         <!-- Article Image -->
         <figure class="mb-8">
-            <img src="{{ $konten->foto }}" alt="{{ $konten->judul }}" class="w-full rounded-lg shadow-md">
+            <img src="{{ $konten->foto }}" alt="{{ $konten->judul }}" class="w-full max-h-80 object-cover rounded-lg shadow-md">
         </figure>
 
         <!-- Article Content -->
@@ -43,7 +43,7 @@
         </div>
 
         <!-- Action Buttons (for article owner) -->
-        @if(auth()->check() && auth()->user()->id === $konten->user_id || auth()->user()->role === 'super admin')
+        @if(auth()->check() && (auth()->user()->id === $konten->user_id || auth()->user()->role === 'super admin'))
         <div class="flex space-x-4 mt-8 pt-6 border-t border-gray-200">
             <a href="{{ route('konten.edit',$konten)}}" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
                 Edit Artikel

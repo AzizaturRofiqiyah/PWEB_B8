@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Mail\SendEmail;
 use App\Models\Notifikasi;
 use App\Models\Institution;
@@ -66,6 +67,18 @@ class InformasiBeasiswaController extends Controller
             'tipe' => 'success',
             'user_id' => $user->id
         ]);
+
+        $users = User::where('role', 'user')->get();
+
+        foreach ($users as $user) {
+            Notifikasi::create([
+                'judul' => 'Beasiswa baru telah ditambahkan',
+                'isi' => 'Cek beasiswa baru yang telah disetujui.',
+                'link' => '/beasiswa/' . $beasiswa->id,
+                'tipe' => 'info',
+                'user_id' => $user->id
+            ]);
+        }
 
         // Kirim email notifikasi
 
